@@ -19,10 +19,18 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 * {
+  color: white;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.4;
+  background-color: rgb(21, 21, 24);
 }
 
 main {

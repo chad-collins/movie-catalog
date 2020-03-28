@@ -1,7 +1,7 @@
 
 import axios from 'axios'
 
-const baseDomain = 'https://api.themoviedb.org/3/discover';
+const baseDomain = 'https://api.themoviedb.org/3';
 const baseURL =  `${baseDomain}`
 
 

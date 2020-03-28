@@ -1,12 +1,11 @@
 <template>
   <div class="navbar">
     <ul>
-        <!-- @/assets/images//outline-home-24px.svg -->
-        <li><router-link to="/">Home</router-link></li>
-        <!-- <li><router-link to="/movies"><i class="fas fa-film"></i></router-link></li>
-        <li><router-link to="/shows"><i class="fas fa-tv"></i></router-link></li> -->
-        <li><router-link to="/search">Search</router-link></li>
-        <li><router-link to="/about">info</router-link></li>
+
+        <li><router-link to="/"><img width="24" src="../assets/nav-home.svg" alt=""></router-link></li>
+
+        <li><router-link to="/search"><img width="24" src="../assets/nav-search.svg" alt=""></router-link></li>
+        <li><router-link to="/about"><img width="24" src="../assets/nav-about.svg" alt=""></router-link></li>
     </ul>
   </div>
 </template>

@@ -1,10 +1,11 @@
 
 import MoviesRepository from "./MoviesRepository"
+import ActorsRepository from "./ActorsRepository";
 
 
 const repositories = {
     movies: MoviesRepository,
-
+    actors: ActorsRepository
 
 }
 

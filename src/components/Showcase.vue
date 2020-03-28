@@ -15,25 +15,22 @@
           frameborder="0"
           allowfullscreen
         ></iframe>
-        <!-- <youtube
-          :video-id="videoId.key"
-          @ready="ready"
-          @playing="playing"
-          :player-vars="{ autoplay: 1 }"
-        ></youtube>-->
       </div>
     </div>
     <img
       class="mobile-only mobile-backdrop"
       v-bind:src="'https://image.tmdb.org/t/p/original' + movie.backdrop_path"
-    >
+    />
     <div class="info-container">
-      <!-- <img
-        class="mobile-only mobile-poster"
-        v-bind:src="'https://image.tmdb.org/t/p/original' + movie.poster_path"
-      > -->
       <div class="info-wrapper">
-        <p class="info--title">{{ movie.title }}</p>
+               <router-link
+          :to="{ 
+            name: 'movie', 
+            params: { 
+                id: movie.id,
+            } 
+        }"
+        ><p class="info--title">{{ movie.title }}</p></router-link>
 
         <p class="info--date">{{ movie.release_date.substring(0, 4)}}</p>
         <p
@@ -43,21 +40,35 @@
         <p class="info-extra">{{ movie.overview.substring(0, 250)}}...</p>
       </div>
     </div>
-    <button class="show-btn" @click="isHidden = !isHidden">
-      <i class="material-icons">play_arrow</i>Watch Trailer
+    <button  class="show-btn" @click="isHidden = !isHidden">
+      <img width="24" src="../assets/button-play.svg" alt />Watch Trailer
     </button>
   </div>
 </template>
 
 <script>
+import { RepositoryFactory } from "../services/RepositoryFactory.js";
+const MoviesRepository = RepositoryFactory.get("movies");
 export default {
   name: "Showcase",
   props: {
-    movie: {},
-    videoId: {}
+    movie: {}
   },
   data() {
-    return { isHidden: true };
+    return { 
+    isHidden: true, 
+    videoId: null };
+  },
+  created() {
+    this.fetch();
+  },
+  methods: {
+    async fetch() {
+      
+        const { data } = await MoviesRepository.getVideoById(this.movie.id);
+        this.videoId = data.results[0];
+      
+    }
   }
 };
 </script>

@@ -1,50 +1,54 @@
 <template>
   <div id="app">
-     <Showcase v-bind:movie="showcase" v-bind:videoId="videoId"/>
-<MovieRow categoryName="Now Trending" :movies="trending"/>
+    <Showcase v-bind:movie="showcaseMovie" :key="showcaseMovie.id" />
+    <MovieRow categoryName="Now Trending" :movies="trending" />
+    <MovieRow categoryName="Upcoming" :movies="upcoming" />
+      <CastRow v-bind:cast="popularActors" />
   </div>
 </template>
 
 
 <script>
-
 import MovieRow from "../components/MovieRow";
 import Showcase from "../components/Showcase";
+import CastRow from "../components/CastRow";
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
 const MoviesRepository = RepositoryFactory.get("movies");
-
+const ActorsRepository = RepositoryFactory.get("actors");
 
 export default {
   name: "home",
   components: {
     Showcase,
+    CastRow,
     MovieRow
-
   },
   data() {
     return {
+      showcaseMovie: {},
       trending: [],
-  
+      upcoming: [],
+      popularActors: []
     };
-  
   },
-    created() {
-  this.fetch();
-    
+  created() {
+    this.fetch();
   },
-   methods: {
+  methods: {
     async fetch() {
-      const { data } = await MoviesRepository.getTrending();
-      this.trending = data.results;}
+      {const { data } = await MoviesRepository.getTrending();
+      this.trending = data.results;
+      this.getShowcaseMovie();}
+      {const { data } = await MoviesRepository.getUpcoming();
+      this.upcoming = data.results;}
+       {const { data } = await ActorsRepository.getPopular();
+      this.popularActors = data.results;}
     },
-
-    computed: {
-      //return a random movie from the TRENDING MOVIES row
-       showcase() {
-          return this.trending[
-            Math.floor(Math.random() * this.trending.length)
-          ]  
-          }
+    getShowcaseMovie() {
+      this.showcaseMovie = this.trending[
+        Math.floor(Math.random() * this.trending.length)
+      ];
     }
-  };
+  }
+};
 </script>
