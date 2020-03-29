@@ -17,14 +17,29 @@ export default new Router({
     {
       path: '/movie/:id',
       name: 'movie',
-      props: true,
+      
       component: () => import('./views/Movie.vue')
     },
     {
       path: '/actor/:id',
       name: 'actor',
-      props: true,
+    
       component: () => import('./views/Actor.vue')
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import('./views/Search.vue')
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('./views/About.vue')
+    },
+    {
+      path: '/movies',
+      name: 'movies',
+      component: () => import('./views/Movies.vue')
     }
   ]
 })

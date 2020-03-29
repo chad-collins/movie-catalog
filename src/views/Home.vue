@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <Showcase v-bind:movie="showcaseMovie" :key="showcaseMovie.id" />
-    <MovieRow categoryName="Now Trending" :movies="trending" />
-    <MovieRow categoryName="Upcoming" :movies="upcoming" />
-      <CastRow v-bind:cast="popularActors" />
+    <MovieRow rowTitle="Popular Now" :movies="trending" />
+    <MovieRow rowTitle="Now Playing" :movies="upcoming" />
+    <CastRow rowTitle="Popular Actors" v-bind:cast="popularActors" />
   </div>
 </template>
 
@@ -36,13 +36,19 @@ export default {
   },
   methods: {
     async fetch() {
-      {const { data } = await MoviesRepository.getTrending();
-      this.trending = data.results;
-      this.getShowcaseMovie();}
-      {const { data } = await MoviesRepository.getUpcoming();
-      this.upcoming = data.results;}
-       {const { data } = await ActorsRepository.getPopular();
-      this.popularActors = data.results;}
+      {
+        const { data } = await MoviesRepository.getTrending();
+        this.trending = data.results;
+        this.getShowcaseMovie();
+      }
+      {
+        const { data } = await MoviesRepository.getUpcoming();
+        this.upcoming = data.results;
+      }
+      {
+        const { data } = await ActorsRepository.getPopular();
+        this.popularActors = data.results;
+      }
     },
     getShowcaseMovie() {
       this.showcaseMovie = this.trending[

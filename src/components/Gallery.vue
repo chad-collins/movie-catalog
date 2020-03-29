@@ -1,6 +1,7 @@
 <template>
-  <div class="window" >
+  <div class="window">
     <div class="modal">
+      <div>{{this.$route.name}}</div>
       <button @click="$emit('close')" class="close">X</button>
 
       <div class="modal-content">
@@ -35,7 +36,11 @@
         </div>
 
         <figure class="current-image-box">
-          <img class="current-img" :src="'https://image.tmdb.org/t/p/original/' + changeImage" alt="'Poster" />
+          <img
+            class="current-img"
+            :src="'https://image.tmdb.org/t/p/original/' + defaultImage"
+            alt="'Poster"
+          />
         </figure>
       </div>
     </div>
@@ -44,8 +49,9 @@
 
 <script>
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
-const MoviesRepository = RepositoryFactory.get("movies");
+
 export default {
+  props: {},
   data() {
     return {
       posters: [],
@@ -58,14 +64,14 @@ export default {
   },
   created() {
     this.fetch();
+    this.generatePages();
   },
   methods: {
     async fetch() {
-      const { data } = await MoviesRepository.getImagesById(
-        this.$route.params.id
-      );
-      this.posters = data.posters;
-      this.generatePages();
+      const repository = RepositoryFactory.get(this.$route.name + "s");
+      const { data } = await repository.getImagesById(this.$route.params.id);
+      this.posters = data.profiles ? data.profiles : data.posters;
+      
     },
     generatePages() {
       this.numberOfPages = Math.ceil(this.posters.length / this.numberPerPage);
@@ -79,7 +85,7 @@ export default {
       this.currentPage -= 1;
       this.loadList();
     }
-    },
+  },
   computed: {
     begin() {
       return (this.currentPage - 1) * this.numberPerPage;
@@ -87,9 +93,8 @@ export default {
     end() {
       return this.begin + this.numberPerPage;
     },
-    changeImage(){
-        if (this.currentImage==null){return this.posters[0].file_path}
-        else return this.currentImage
+    defaultImage() {
+      return (this.currentImage == null) ? this.posters[0].file_path : this.currentImage;
     }
   }
 };
@@ -116,8 +121,7 @@ export default {
   border-radius: 5px;
   overflow: hidden;
   padding: 1rem;
-  background: rgb(119,119,119);
-  
+  background: rgb(119, 119, 119);
 }
 
 .modal-content {
@@ -126,10 +130,11 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
-  background: linear-gradient(90deg, rgba(119,119,119,0) 20%, rgba(25,25,25,1) 68%);
-  
-   
-
+  background: linear-gradient(
+    90deg,
+    rgba(119, 119, 119, 0) 20%,
+    rgba(25, 25, 25, 1) 68%
+  );
 }
 
 .carousel {
@@ -139,7 +144,6 @@ export default {
   justify-content: space-between;
   align-content: center;
   height: max-content;
- 
 }
 
 .carousel-image {
@@ -148,7 +152,7 @@ export default {
 }
 
 .carousel-image:hover {
-    cursor: pointer;
+  cursor: pointer;
   transform: scale(1.03);
 }
 
@@ -185,6 +189,4 @@ export default {
   width: 100%;
   height: 100%;
 }
-
-
 </style>

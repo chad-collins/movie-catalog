@@ -10,11 +10,11 @@
         <ul class="stat-list">
           <li class="stat">
             <p class="stat--label">Birthday:</p>
-            <p class="stat--content">{{ actor.birthday }}</p>
+            <p class="stat--content">{{ actor.birthday | date }}</p>
           </li>
           <li class="stat" v-if="actor.deathday != null">
             <p class="stat--label">Died:</p>
-            <p class="stat--content">{{ actor.deathday }}</p>
+            <p class="stat--content">{{ actor.deathday | date}}</p>
           </li>
           <li class="stat" v-if="actor.place_of_birth != null">
             <p class="stat--label">Birthplace:</p>
@@ -38,24 +38,31 @@
         >show less</button>
       </div>
     </div>
+
+    <div class="movie-nav">
+      <button class="button" @click="galleryShowing = true">Gallery</button>
+    </div>
+    <Gallery @close="galleryShowing=false" v-if="galleryShowing==true" />
     <MovieRow categoryName="Acting Credits:" v-bind:movies="movies" />
   </div>
 </template>
 
 
 <script>
+import Gallery from "../components/Gallery";
 import MovieRow from "../components/MovieRow.vue";
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
 const ActorsRepository = RepositoryFactory.get("actors");
 
 export default {
   name: "Actor",
-  components: { MovieRow },
+  components: { MovieRow, Gallery },
   data() {
     return {
       movies: [],
       actor: {},
-      expanded: false
+      expanded: false,
+      galleryShowing: false
     };
   },
   created() {

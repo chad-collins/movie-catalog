@@ -1,6 +1,6 @@
 <template>
   <div class="row-container">
-    <h3 class="row-title">{{ categoryName }}</h3>
+    <h3 class="row-title">{{ rowTitle }}</h3>
     <div class="movie-row-wrapper">
       <div v-for="movie in movies" :key="movie.id">
         <router-link
@@ -11,10 +11,11 @@
             } 
         }"
         >
-          <img v-if="movie.poster_path==null" src="https://www.fillmurray.com/g/370/556"/>
-          <img v-else :src="'https://image.tmdb.org/t/p/w370_and_h556_bestv2//' + movie.poster_path" />
+          
+          <img :src="movie.poster_path | formatImageLink" />
         </router-link>
-        <h4>{{ movie.title }}</h4>
+        <h4>{{ movie.title.substring(0, 40)}} <span v-if="movie.title.length > 41">...</span>
+        </h4>
         <p v-if="movie.character != null">{{ movie.character }}</p>
       </div>
     </div>
@@ -27,7 +28,7 @@ export default {
   name: "MovieRow",
 
   props: {
-    categoryName: String,
+    rowTitle: String,
     movies: {}
   }
 };
@@ -40,6 +41,11 @@ export default {
   font-size: 1.3rem;
   margin-left: 1.5rem;
   margin-bottom: 0.7rem;
+}
+.row-container {
+  box-shadow: inset 0 2px 25px #000000;
+  padding-top: 1rem;
+  margin: 2rem 0;
 }
 
 .movie-row-wrapper {
@@ -59,7 +65,7 @@ export default {
 
 img {
   border-radius: 5px;
-  height: 20vh;
+  height: 15vw;
   width: auto;
   margin: 0.1rem;
   transition: all 0.1s ease-in-out;

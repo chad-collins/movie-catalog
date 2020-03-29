@@ -112,6 +112,10 @@ export default {
   z-index: 900001;
 }
 
+
+.close-btn:hover{
+  cursor: pointer;}
+
 @media (min-width: 600px) {
   .hero {
     display: flex;
@@ -189,7 +193,7 @@ export default {
 }
 
 .show-btn {
-  background-color: rgb(108, 84, 197);
+  background-color: #6c54c5;
   display: flex;
   align-items: center;
   width: 100%;
@@ -199,6 +203,12 @@ export default {
   margin-top: 2rem;
   padding: 1.3rem;
   font-size: 1.2rem;
+
+}
+
+.show-btn:hover{
+  cursor: pointer;
+  background-color: #856fd6;
 }
 
 .material-icons {

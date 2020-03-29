@@ -21,36 +21,49 @@
           <ul class="stat-list">
             <li class="stat">
               <p class="stat--label">Runtime:</p>
-              <p class="stat--content">{{ movie.runtime }} minutes</p>
+              <p class="stat--content">
+                {{ movie.runtime }} minutes
+                <span class="italic">({{movie.runtime | minutesToHours}} hours)</span>
+              </p>
+            </li>
+            <li class="stat">
+              <p class="stat--label">Release Date:</p>
+              <p class="stat--content">{{ movie.release_date | date}}</p>
             </li>
             <li class="stat">
               <p class="stat--label">Genres:</p>
-              <p class="stat--content" v-bind:key="genre.name" v-for="genre in movie.genres">
-                {{ genre.name }}
-                &nbsp;
-              </p>
+              <small
+                class="genres"
+                v-bind:key="genre.name"
+                v-for="genre in movie.genres"
+              >{{ genre.name }}</small>
             </li>
             <li class="stat">
               <p class="stat--label">Directed by:</p>
-              <p class="stat--content" v-bind:key="director.id" v-for="director in movieDirectors">
-                {{ director.name }}
-                &nbsp;
-              </p>
+              <p
+                class="stat--content"
+                v-bind:key="director.id"
+                v-for="director in movieDirectors"
+              >{{ director.name }}</p>
             </li>
             <li class="stat">
               <p class="stat--label">Budget:</p>
-              <p class="stat--content">${{ formatNumber(movie.budget) }}</p>
+              <p class="stat--content">{{ movie.budget | dollars }}</p>
             </li>
             <li class="stat">
               <p class="stat--label">Revenue:</p>
-              <p class="stat--content">${{ formatNumber(movie.revenue) }}</p>
+              <p class="stat--content">{{ movie.revenue | dollars }}</p>
+            </li>
+            <li class="stat">
+              <p class="stat--label">Link:</p>
+              <a class="stat--content" :href="movie.homepage" target="_blank">{{ movie.homepage }}</a>
             </li>
           </ul>
         </div>
       </div>
     </div>
-    <CastRow v-bind:cast="movie.credits.cast" />
-    <MovieRow categoryName="Similar Movies:" v-bind:movies="similar" />
+    <CastRow rowTitle="Cast" v-bind:cast="movie.credits.cast" />
+    <MovieRow rowTitle="Similar Movies" v-bind:movies="similar" />
   </div>
 </template>
 
@@ -81,6 +94,7 @@ export default {
   created() {
     this.fetch();
   },
+
   methods: {
     async fetch() {
       const id = this.$route.params.id;
@@ -92,13 +106,6 @@ export default {
         const { data } = await MoviesRepository.getSimilarById(id);
         this.similar = data.results;
       }
-      {
-        const { data } = await MoviesRepository.getReviewsById(id);
-        this.reviews = data;
-      }
-    },
-    formatNumber: function(num) {
-      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     }
   },
 
@@ -118,6 +125,13 @@ export default {
 </script>
 
 <style scoped>
+.genres {
+  background-color: #6c54c5;
+  padding: 0.3rem 0.8rem;
+  margin: 0.3rem;
+  border-radius: 15px;
+}
+
 .temp {
   text-align: center;
   margin: 3rem;
@@ -185,5 +199,9 @@ li {
 
 .stat--splitter {
   color: orange;
+}
+
+.italic {
+  font-style: italic;
 }
 </style>

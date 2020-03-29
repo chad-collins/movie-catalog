@@ -1,25 +1,26 @@
 <template>
   <div class="row-container">
-    <h3 class="row-title">Cast</h3>
+    <h3 class="row-title">{{ rowTitle }}</h3>
     <div class="cast-row-wrapper">
-      <div v-for="actor in cast" :key="actor.id"><router-link
-    :to="{ 
+      <div v-for="actor in cast" :key="actor.id">
+        <router-link
+          :to="{ 
             name: 'actor', 
             params: { 
                 id: actor.id,
                 actor: actor
             } 
         }"
-  >
-      <img
-      v-if="actor.profile_path"
-        class="actor-headshot"
-        v-bind:src="'https://image.tmdb.org/t/p/w370_and_h556_bestv2//' + actor.profile_path"
-        v-bind:alt="'Photo of ' + actor.name"
-      >
-  </router-link>
-      <p class="actor-name">{{ actor.name }}</p>
-      <p v-if="actor.character" class="actor-role">{{ actor.character }}</p></div>
+        >
+          <img
+            class="actor-headshot"
+            :src="actor.profile_path | formatImageLink"
+            :alt="'Photo of ' + actor.name"
+          />
+        </router-link>
+        <p class="actor-name">{{ actor.name }}</p>
+        <small v-if="actor.character" class="actor-role">{{ actor.character }}</small>
+      </div>
     </div>
   </div>
 </template>
@@ -27,12 +28,11 @@
 
 <script>
 
-
 export default {
   name: "CastRow",
- 
+
   props: {
-    categoryName: String,
+    rowTitle: String,
     cast: Array
   }
 };
@@ -40,11 +40,17 @@ export default {
 
 
 <style scoped>
+.row-container {
+  box-shadow: inset 0 2px 25px #000000;
+  padding-top: 1rem;
+  margin: 2rem 0;
+}
 
 .row-title {
   color: white;
-  size: 2rem;
-  margin-left: 1.5rem; 
+  font-size: 1.3rem;
+  margin-left: 1.5rem;
+  margin-bottom: 0.9rem;
 }
 
 .cast-row-wrapper > * {
@@ -52,10 +58,10 @@ export default {
 }
 
 .cast-row-wrapper > *:last-child {
-  padding-right:1.5rem;
+  padding-right: 1.5rem;
 }
 
-.cast-row-wrapper{
+.cast-row-wrapper {
   display: flex;
   width: 100%;
   height: auto;
@@ -71,7 +77,7 @@ export default {
 
 .actor-headshot {
   width: auto;
-  height: 200px;
+  height: 12vw;
   transition: all 0.1s ease-in-out;
 }
 
@@ -82,5 +88,4 @@ export default {
 .actor-name {
   color: white;
 }
-
 </style>

@@ -6,6 +6,7 @@
 
         <li><router-link to="/search"><img width="24" src="../assets/nav-search.svg" alt=""></router-link></li>
         <li><router-link to="/about"><img width="24" src="../assets/nav-about.svg" alt=""></router-link></li>
+        <li><router-link to="/movies">M</router-link></li>
     </ul>
   </div>
 </template>
