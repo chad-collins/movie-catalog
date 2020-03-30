@@ -6,7 +6,7 @@ Vue.config.productionTip = false;
 
 Vue.filter("formatImageLink", function(value) {
   return value == null
-    ? "https://via.placeholder.com/370x556/000000/FFFFFF/?text=No%20Image%20Found"
+    ? "https://via.placeholder.com/185x278/000000/FFFFFF/?text=No%20Image%20Found"
     : "https://image.tmdb.org/t/p/w185" + value;
 });
 

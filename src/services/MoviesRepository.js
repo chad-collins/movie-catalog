@@ -18,16 +18,13 @@ export default {
   getSimilarById(id) {
     return Repository.get(`movie/${id}/similar?${key}`);
   },
-  getReviewsById(id) {
-    return Repository.get(`movie/${id}/reviews?${key}&page=1`);
-  },
   getUpcoming() {
-    return Repository.get(`movie/now_playing?${key}`);
+    return Repository.get(`movie/now_playing?${key}&region=US&language=en-US`);
   },
 
   getTrending() {
     return Repository.get(
-      `discover/movie?${key}&with_release_type=2|3&region=US${append}videos`
+      `discover/movie?${key}&with_release_type=2|3&region=US&language=en-US`
     );
   },
   getNinetiesAction() {
@@ -41,10 +38,10 @@ export default {
       `genre/movie/list?${key}&language=en-US`
     )
   },
-  getMovies(sort, genre, page){
+  getMovies(cast, sort, genre, page){
     const genreFilter = (genre === 'all') ? '': '&with_genres=' + genre
     return Repository.get(
-      `discover/movie?${key}&with_cast=192&language=en-US&sort_by=${sort}&include_adult=false&include_video=true&primary_release_date.gte=1939-01-01&primary_release_date.lte=2020-12-31&vote_average.gte=6${genreFilter}&page=${page}`)}
+      `discover/movie?${key}&with_cast=${cast}&sort_by=${sort}&include_adult=false&primary_release_date.gte=1939-01-01&primary_release_date.lte=2020-12-31${genreFilter}&page=${page}`)}
   
    
   

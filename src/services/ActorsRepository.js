@@ -14,7 +14,7 @@ export default {
   },
   getPopular() {
     return Repository.get(
-      `person/popular?${key}&adult=false&original_language=en-US`
+      `person/popular?${key}&language=en-US&page=1`
     );
   },
   getByName(name) {

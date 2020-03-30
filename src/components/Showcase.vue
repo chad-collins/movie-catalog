@@ -123,8 +123,8 @@ export default {
     align-items: flex-start;
     justify-content: center;
     padding: 1rem;
-    width: 100%;
-    height: 70vh;
+    width: 100vw;
+    height: 60vh;
   }
 
   .mobile-only {
@@ -187,7 +187,7 @@ export default {
     rgba(0, 0, 0, 1) 18%,
     rgba(255, 255, 255, 0) 100%
   );
-  background-position: center;
+  background-position: 0 10% ;
   background-repeat: no-repeat;
   background-size: cover;
 }

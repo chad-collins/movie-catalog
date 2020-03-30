@@ -24,7 +24,6 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 * {
-  color: white;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -37,7 +36,7 @@ a:active, a:focus {
 body {
   font-family: "Roboto", sans-serif;
   line-height: 1.4;
-  background-color: rgb(21, 21, 24);
+  background-color: rgb(219, 219, 233);
 }
 
 main {

@@ -41,13 +41,11 @@ export default {
 
 <style scoped>
 .row-container {
-  box-shadow: inset 0 2px 25px #000000;
   padding-top: 1rem;
   margin: 2rem 0;
 }
 
 .row-title {
-  color: white;
   font-size: 1.3rem;
   margin-left: 1.5rem;
   margin-bottom: 0.9rem;
@@ -76,16 +74,10 @@ export default {
 }
 
 .actor-headshot {
-  width: auto;
-  height: 12vw;
-  transition: all 0.1s ease-in-out;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+
+
 }
 
-.actor-headshot:hover {
-  transform: scale(1.03);
-}
 
-.actor-name {
-  color: white;
-}
 </style>

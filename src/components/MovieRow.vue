@@ -1,8 +1,8 @@
 <template>
-  <div class="row-container">
+  <div class="container">
     <h3 class="row-title">{{ rowTitle }}</h3>
-    <div class="movie-row-wrapper">
-      <div v-for="movie in movies" :key="movie.id">
+    <div class="movie-row">
+      <div class="movie-box" v-for="movie in movies" :key="movie.id">
         <router-link
           :to="{ 
             name: 'movie', 
@@ -11,12 +11,15 @@
             } 
         }"
         >
-          
           <img :src="movie.poster_path | formatImageLink" />
         </router-link>
-        <h4>{{ movie.title.substring(0, 40)}} <span v-if="movie.title.length > 41">...</span>
-        </h4>
-        <p v-if="movie.character != null">{{ movie.character }}</p>
+        <div class="movie-info">
+          <div class="movie-title">
+            {{ movie.title.substring(0, 40)}}
+            <span v-if="movie.title.length > 41">...</span>
+          </div>
+          <div v-if="movie.character != null">{{ movie.character }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -37,25 +40,24 @@ export default {
 
 <style scoped>
 .row-title {
-  color: white;
   font-size: 1.3rem;
   margin-left: 1.5rem;
   margin-bottom: 0.7rem;
 }
-.row-container {
-  box-shadow: inset 0 2px 25px #000000;
+.container {
   padding-top: 1rem;
   margin: 2rem 0;
 }
 
-.movie-row-wrapper {
+.movie-row {
   display: flex;
+  padding: 1rem;
   width: 100%;
   overflow-y: hidden; /* Hide horizontal scrollbar */
   overflow-x: scroll; /* Add vertical scrollbar */
 }
 
-.movie-row-wrapper > * {
+.movie-row > * {
   margin-left: 1.5rem;
 }
 
@@ -64,14 +66,13 @@ export default {
 }
 
 img {
-  border-radius: 5px;
-  height: 15vw;
-  width: auto;
-  margin: 0.1rem;
-  transition: all 0.1s ease-in-out;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+}
+.movie-info {
+  padding: 0.5rem;
 }
 
-img:hover {
-  transform: scale(1.03);
+.movie-title {
+  font-weight: bold;
 }
 </style>

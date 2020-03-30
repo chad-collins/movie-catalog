@@ -44,19 +44,21 @@
     </div>
     <Gallery @close="galleryShowing=false" v-if="galleryShowing==true" />
     <MovieRow categoryName="Acting Credits:" v-bind:movies="movies" />
+    <List />
   </div>
 </template>
 
 
 <script>
 import Gallery from "../components/Gallery";
+import List from "../components/List";
 import MovieRow from "../components/MovieRow.vue";
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
 const ActorsRepository = RepositoryFactory.get("actors");
 
 export default {
   name: "Actor",
-  components: { MovieRow, Gallery },
+  components: { MovieRow, Gallery, List },
   data() {
     return {
       movies: [],

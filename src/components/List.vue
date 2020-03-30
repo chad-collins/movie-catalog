@@ -42,17 +42,14 @@
 
       <table style="width:100%">
         <tr>
-          <th v-on:click="sortList('vote_average')">Vote Average<span v-if="sort.includes('vote_average')"> {{ arrow }}</span></th>
-          <th></th>
+          <th v-on:click="sortList('vote_average')">Avg. Rating<span v-if="sort.includes('vote_average')"> {{ arrow }}</span></th>
           <th v-on:click="sortList('original_title')" >Title<span v-if="sort.includes('original_title')"> {{ arrow }}</span></th>
           <th v-on:click="sortList('release_date')" >Year<span v-if="sort.includes('release_date')"> {{ arrow }}</span></th>
         </tr>
         <tr v-for="movie in movies" v-bind:key="movie.id">
           <td>{{movie.vote_average}}</td>
           <td>
-            <img width="50" :src="movie.poster_path | formatImageLink" alt />
-          </td>
-          <td>
+              
             <router-link
               :to="{ 
             name: 'movie', 
@@ -60,7 +57,7 @@
                 id: movie.id,
             } 
         }"
-            >{{movie.title}}</router-link>
+            ><img width="50" :src="movie.poster_path | formatImageLink" alt />{{movie.title}}</router-link>
           </td>
           <td>{{movie.release_date | year}}</td>
         </tr>
@@ -73,7 +70,7 @@
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
 const MoviesRepository = RepositoryFactory.get("movies");
 export default {
-  name: "movies",
+  name: "list",
   components: {},
   data() {
     return {
@@ -117,6 +114,7 @@ export default {
     },
     async runSearch() {
       const { data } = await MoviesRepository.getMovies(
+        this.$route.params.id,
         this.sort,
         this.selectedGenre,
         this.currentPage
@@ -181,7 +179,12 @@ li {
 th {
   text-align: left;
   padding: 1rem;
-  background-color: purple;
+  background-color: rgb(108, 84, 197);
+}
+
+th:hover {
+    cursor: pointer;
+     background-color: rgb(98, 75, 180);
 }
 
 tr:nth-child(even) {
