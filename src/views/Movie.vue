@@ -21,10 +21,7 @@
           <ul class="stat-list">
             <li class="stat">
               <p class="stat--label">Runtime:</p>
-              <p class="stat--content">
-                {{ movie.runtime }} minutes
-                <span class="italic">({{movie.runtime | minutesToHours}} hours)</span>
-              </p>
+              <p class="stat--content">{{ movie.runtime | minutesToHours }}</p>
             </li>
             <li class="stat">
               <p class="stat--label">Release Date:</p>

@@ -7,7 +7,7 @@ Vue.config.productionTip = false;
 Vue.filter("formatImageLink", function(value) {
   return value == null
     ? "https://via.placeholder.com/370x556/000000/FFFFFF/?text=No%20Image%20Found"
-    : "https://image.tmdb.org/t/p/w370_and_h556_bestv2" + value;
+    : "https://image.tmdb.org/t/p/w185" + value;
 });
 
 Vue.filter("dollars", function(value) {
@@ -48,8 +48,14 @@ Vue.filter("date", function(value) {
   return getMonth(monthNum) + " " + day + ", " + year;
 });
 
+Vue.filter("year", function(value) {
+  return value.slice(0, 4);
+});
+
 Vue.filter("minutesToHours", function(value) {
-  return (value / 60).toString().slice(0, 4);
+  const hours = Math.floor(value / 60)
+  const minutes = (value % 60)
+  return (value == null) ? "unknown" : hours.toString() + " hr " + minutes.toString() + " min";
 });
 
 new Vue({

@@ -42,8 +42,9 @@ export default {
     )
   },
   getMovies(sort, genre, page){
+    const genreFilter = (genre === 'all') ? '': '&with_genres=' + genre
     return Repository.get(
-      `discover/movie?${key}&language=en-US&sort_by=${sort}&include_adult=false&include_video=false&primary_release_date.gte=1990-01-01&primary_release_date.lte=1999-12-31&vote_average.gte=6&with_genres=${genre}&page=${page}`)}
+      `discover/movie?${key}&with_cast=192&language=en-US&sort_by=${sort}&include_adult=false&include_video=true&primary_release_date.gte=1939-01-01&primary_release_date.lte=2020-12-31&vote_average.gte=6${genreFilter}&page=${page}`)}
   
    
   
