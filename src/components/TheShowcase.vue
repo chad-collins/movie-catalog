@@ -35,7 +35,7 @@
         <p class="info--date">{{ movie.release_date.substring(0, 4)}}</p>
         <p
           class="info--date"
-        >{{ movie.vote_average + '/10' + ' (' + movie.vote_count + ' reviews)'}}</p>
+        >{{movie.vote_average | rating}}{{ '(' + movie.vote_count + ' reviews)'}}</p>
         <p>{{ movie.tagline }}</p>
         <p class="info-extra">{{ movie.overview.substring(0, 250)}}...</p>
       </div>

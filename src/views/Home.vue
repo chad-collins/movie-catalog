@@ -10,7 +10,7 @@
 
 <script>
 import MovieRow from "../components/MovieRow";
-import Showcase from "../components/Showcase";
+import Showcase from "../components/TheShowcase";
 import CastRow from "../components/CastRow";
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
 const MoviesRepository = RepositoryFactory.get("movies");

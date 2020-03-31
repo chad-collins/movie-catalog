@@ -1,0 +1,48 @@
+<template>
+  <ul>
+    <li class="item" v-for="movie in movies" v-bind:key="movie.id">
+      <div class="left-col">
+        <router-link
+          :to="{ 
+            name: 'movie', 
+            params: { 
+                id: movie.id,
+            } 
+        }"
+        >{{movie.title}}</router-link>
+        <div>{{movie.character}}</div>
+
+        <div>{{movie.vote_average | rating}}</div>
+      </div>
+
+      <div>{{movie.release_date | year}}</div>
+    </li>
+  </ul>
+</template>
+<script>
+export default { props: { movies: {} } };
+</script>
+<style scoped>
+
+ul {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+li {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+li:nth-child(even) {
+  background-color: rgb(227, 227, 240);
+}
+
+a {
+  color: rgb(108, 84, 197);
+  font-weight: bolder;
+  text-decoration: none;
+}
+</style>

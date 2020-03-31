@@ -2,33 +2,17 @@
   <div class="container">
     <h3 class="row-title">{{ rowTitle }}</h3>
     <div class="movie-row">
-      <div class="movie-box" v-for="movie in movies" :key="movie.id">
-        <router-link
-          :to="{ 
-            name: 'movie', 
-            params: { 
-                id: movie.id,
-            } 
-        }"
-        >
-          <img :src="movie.poster_path | formatImageLink" />
-        </router-link>
-        <div class="movie-info">
-          <div class="movie-title">
-            {{ movie.title.substring(0, 40)}}
-            <span v-if="movie.title.length > 41">...</span>
-          </div>
-          <div v-if="movie.character != null">{{ movie.character }}</div>
-        </div>
-      </div>
-    </div>
+      <MovieCard class="movie-box" v-for="movie in movies" :movie="movie" :key="movie.id" />
+       </div>
   </div>
 </template>
 
 
 <script>
+import MovieCard from './MovieCard'
 export default {
   name: "MovieRow",
+  components:{MovieCard},
 
   props: {
     rowTitle: String,
@@ -65,14 +49,5 @@ export default {
   padding-right: 1.5rem;
 }
 
-img {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
-}
-.movie-info {
-  padding: 0.5rem;
-}
 
-.movie-title {
-  font-weight: bold;
-}
 </style>

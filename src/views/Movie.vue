@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import Showcase from "../components/Showcase";
+import Showcase from "../components/TheShowcase";
 import Gallery from "../components/Gallery";
 import MovieRow from "../components/MovieRow.vue";
 import CastRow from "../components/CastRow";
@@ -84,7 +84,6 @@ export default {
     return {
       movie: {},
       similar: {},
-      reviews: {},
       galleryShowing: false
     };
   },

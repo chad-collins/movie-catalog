@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
+import NavBar from "./components/TheNavBar";
+import Footer from "./components/TheFooter";
 
 export default {
   name: "App",
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 * {
   box-sizing: border-box;
   margin: 0;
@@ -34,7 +34,7 @@ a:active, a:focus {
   outline-style: none;
 }
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Archivo', sans-serif;
   line-height: 1.4;
   background-color: rgb(219, 219, 233);
 }
@@ -50,5 +50,8 @@ main {
 }
 button {
   user-select: none;
+}
+button:hover {
+  cursor: pointer;
 }
 </style>

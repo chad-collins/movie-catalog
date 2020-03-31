@@ -24,10 +24,9 @@
     </form>
     <div>
       <ul v-if="totalPages > 1" class="results--nav-list">
-        <li  v-on:click="changePage('prev')">&#9668;</li>
-        
+        <li v-on:click="changePage('prev')">&#9668;</li>
+
         <li
-          
           v-on:click="changePage(page.number)"
           v-for="page in pageLabels"
           v-bind="page"
@@ -35,23 +34,28 @@
           v-bind:class="{ active: currentPage == page.number }"
         >{{ page.number }}</li>
 
-        <li  v-on:click="changePage('next')"> 	&#9658;</li>
+        <li v-on:click="changePage('next')">&#9658;</li>
       </ul>
 
       <div>total results:{{totalResults}}</div>
 
       <table style="width:100%">
         <tr>
-          <th v-on:click="sortList('vote_average')">Vote Average<span v-if="sort.includes('vote_average')"> {{ arrow }}</span></th>
-          <th></th>
-          <th v-on:click="sortList('original_title')" >Title<span v-if="sort.includes('original_title')"> {{ arrow }}</span></th>
-          <th v-on:click="sortList('release_date')" >Year<span v-if="sort.includes('release_date')"> {{ arrow }}</span></th>
+          <th v-on:click="sortList('vote_average')">
+            Avg. Rating
+            <span v-if="sort.includes('vote_average')">{{ arrow }}</span>
+          </th>
+          <th v-on:click="sortList('original_title')">
+            Title
+            <span v-if="sort.includes('original_title')">{{ arrow }}</span>
+          </th>
+          <th v-on:click="sortList('release_date')">
+            Year
+            <span v-if="sort.includes('release_date')">{{ arrow }}</span>
+          </th>
         </tr>
         <tr v-for="movie in movies" v-bind:key="movie.id">
           <td>{{movie.vote_average}}</td>
-          <td>
-            <img width="50" :src="movie.poster_path | formatImageLink" alt />
-          </td>
           <td>
             <router-link
               :to="{ 
@@ -60,7 +64,10 @@
                 id: movie.id,
             } 
         }"
-            >{{movie.title}}</router-link>
+            >
+              <img width="50" :src="movie.poster_path | formatImageLink" alt />
+              {{movie.title}}
+            </router-link>
           </td>
           <td>{{movie.release_date | year}}</td>
         </tr>
@@ -73,7 +80,7 @@
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
 const MoviesRepository = RepositoryFactory.get("movies");
 export default {
-  name: "movies",
+  name: "list",
   components: {},
   data() {
     return {
@@ -117,6 +124,7 @@ export default {
     },
     async runSearch() {
       const { data } = await MoviesRepository.getMovies(
+        this.$route.params.id,
         this.sort,
         this.selectedGenre,
         this.currentPage
@@ -140,14 +148,14 @@ export default {
 
       this.runSearch();
     },
-    sortList(option){
-      if(this.sort.includes(option)){ this.sort.includes('.desc') ? this.sort = option + '.asc' : this.sort = option + '.desc' }
-   
-      else this.sort = option + '.desc'
-       this.runSearch();
-      
+    sortList(option) {
+      if (this.sort.includes(option)) {
+        this.sort.includes(".desc")
+          ? (this.sort = option + ".asc")
+          : (this.sort = option + ".desc");
+      } else this.sort = option + ".desc";
+      this.runSearch();
     }
-
   },
   computed: {
     pageLabels() {
@@ -159,11 +167,9 @@ export default {
       return pages;
     },
 
-   arrow(){
-   
-      return this.sort.includes('.desc') ? ' 	\u25bc' : '\u25b2'
+    arrow() {
+      return this.sort.includes(".desc") ? "\u25bc" : "\u25b2";
     }
-
   }
 };
 </script>
@@ -179,23 +185,27 @@ li {
 }
 
 th {
+  color: white;
   text-align: left;
   padding: 1rem;
-  background-color: purple;
+  background-color: rgb(108, 84, 197);
+}
+
+th:hover {
+  cursor: pointer;
+  background-color: rgb(98, 75, 180);
 }
 
 tr:nth-child(even) {
-  background-color: #0e0e11;
+  background-color: rgb(227, 227, 240);
 }
-
 
 .results--nav-list li {
   background-color: inherit;
-    margin: 0 0.5rem;
+  margin: 0 0.5rem;
   font-size: 1.2rem;
   border: none;
   color: white;
-  
 }
 .active {
   color: yellow !important;
@@ -207,7 +217,7 @@ tr:nth-child(even) {
   list-style: none;
 }
 
-.results--nav-list li{
+.results--nav-list li {
   cursor: pointer;
 }
 
