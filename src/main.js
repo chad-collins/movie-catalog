@@ -3,10 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTh, faList, faLink, faHome, faInfo, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faTh, faList, faLink, faHome, faInfo, faSearch, faWindowClose, faPlay, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faVuejs } from '@fortawesome/free-brands-svg-icons'
 
-library.add(faTh, faList, faLink, faHome, faInfo, faSearch )
+library.add(faTh, faList, faLink, faHome, faInfo, faSearch, faWindowClose, faPlay, faCircle, faVuejs )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 
@@ -75,7 +76,7 @@ Vue.filter("date", function(value) {
 
 Vue.filter("year", function(value) {
 
-  return value.slice(0, 4);
+  return value ? value.slice(0, 4) : "";
 });
 
 Vue.filter("minutesToHours", function(value) {

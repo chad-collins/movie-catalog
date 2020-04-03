@@ -4,7 +4,7 @@ const key = "api_key=" + process.env.VUE_APP_TMDB_API_KEY;
 const append = "&append_to_response=";
 export default {
   getById(id) {
-    return Repository.get(`movie/${id}?${key}${append}credits`);
+    return Repository.get(`movie/${id}?${key}&language=en-US${append}credits,release_dates,status,video`);
   },
   getByName(name) {
     return Repository.get(`/search/movie?${key}&query=${name}&language=en-US`)},

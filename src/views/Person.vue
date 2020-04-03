@@ -1,12 +1,27 @@
 <template>
   <div id="page">
     <div class="grid">
+      <article class="bio" v-if="actor.biography">
+        <h1>{{ actor.name }}</h1>
+
+        <p>{{ bio[0] }}</p>
+        <div v-if="expandedBio == true">
+          <p v-for="par in bio.slice(1)" :key="par">{{ par }}</p>
+        </div>
+        <button
+          v-if="bio.length > 1"
+          class="expand-bio-button"
+          v-on:click="expandedBio = !expandedBio"
+        >{{ expandMsg }}</button>
+      </article>
+
       <div class="info">
         <img
-          class="info-image"
+          class="headshot"
           v-bind:src="actor.profile_path | formatImageLink"
           v-bind:alt="'Photo of ' + actor.name"
         />
+
         <div class="stats-wrapper">
           <h2 class="stats-title">Info</h2>
           <ul class="stat-list">
@@ -39,23 +54,6 @@
         </div>
       </div>
 
-      <div class="bio" v-if="actor.biography">
-        <h1>{{ actor.name }}</h1>
-        <article>
-          <p>{{ bio[0] }}</p>
-          <div v-if="expandedBio == true">
-            <p v-for="par in bio.slice(1)" :key="par">{{ par }}</p>
-          </div>
-          <button v-if="bio.length > 1" class="expand-bio-button" v-on:click="expandedBio = !expandedBio">{{ expandMsg }}</button>
-
-        </article>
-
-        <button
-          v-if="actor.biography.length > 500 && expanded === true"
-          @click="expanded = false"
-        >show less</button>
-      </div>
-
       <div class="credits">
         <button class="button" @click="galleryShowing = true">Gallery</button>
 
@@ -63,9 +61,6 @@
         <MovieList v-bind:movies="movies" />
       </div>
     </div>
-
-  
-
   </div>
 </template>
 
@@ -101,20 +96,17 @@ export default {
         const { data } = await ActorsRepository.getActingCredits(
           this.$route.params.id
         );
-        this.movies = data.cast;
-        this.getKnownFor()
+        this.movies = data;
       }
-    },
-        
+    }
   },
   computed: {
     bio() {
       return this.actor.biography.split("\n\n");
     },
-    expandMsg(){
-      return this.expandedBio ? "\u00AB Show Less" : "Show More \u00BB" 
-    },
-    
+    expandMsg() {
+      return this.expandedBio ? "\u00AB Show Less" : "Show More \u00BB";
+    }
   }
 };
 </script>
@@ -122,6 +114,7 @@ export default {
 
 <style scoped>
 #page {
+  margin-top: 6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -131,9 +124,9 @@ export default {
   max-width: 1200px;
   display: grid;
   grid-template-areas:
-    "info bio"
-    "info credits"
-    "info credits";
+    "info    bio"
+    "info    credits"
+    "info     credits";
   grid-column-gap: 50px;
   grid-row-gap: 50px;
 }
@@ -148,6 +141,7 @@ li {
 
 .bio {
   grid-area: bio;
+  line-height: 1.5rem;
 }
 
 .credits {
@@ -165,18 +159,22 @@ li {
   font-size: 1.3rem;
 }
 
+h1 {
+  font-size: 2rem;
+}
+
 article p {
   margin: 2rem 0;
 }
 
-.expand-bio-button{
+.expand-bio-button {
   color: #856fd6;
   background-color: inherit;
   border: none;
   font-size: 1rem;
   font-weight: bolder;
 }
-.expand-bio-button:hover{
+.expand-bio-button:hover {
   color: #1fb15b;
 }
 </style>

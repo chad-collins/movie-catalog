@@ -1,6 +1,6 @@
 <template>
   <div>
-        <div class="sort-buttons-row">
+    <div class="sort-buttons-row">
       <div class="row-left">
         <div
           class="sort-button"
@@ -9,7 +9,7 @@
           v-on:click="sortList(option.key)"
         >
           <div>{{ option.value }}</div>
-          <div v-if="sort.includes(option.key)">{{ arrow }}</div>
+          <div v-if="sortedBy.includes(option.key)">{{ arrow }}</div>
         </div>
       </div>
       <div class="row-right">
@@ -27,7 +27,15 @@
         />
       </div>
     </div>
-    <MovieListDetailview v-if="listView == 'details'" :movies="movies" />
+
+    <div class="department-row">
+      <button>{{department}}</button>
+      <div v-for="department in departments" :key="department">
+        <div v-on:click="updateActiveList(department)">{{department}}</div>
+      </div>
+    </div>
+
+    <MovieListDetailview v-if="listView == 'details'" :movies="listToShow" />
     <MovieListGridView v-else :movies="movies" />
   </div>
 </template>
@@ -43,20 +51,23 @@ export default {
   props: { movies: Array },
   data() {
     return {
-      listView: 'details',
+      activeList: "acting",
+      departments: {},
+      listView: "details",
       genreList: [],
-      sort: "popularity",
+      sortedBy: "popularity",
       sortedDescending: true,
       sortOptions: [
-        
         { key: "title", value: "Title" },
         { key: "release_date", value: "Year" },
         { key: "popularity", value: "Popularity" },
-        { key: "vote_average", value: "Avg Score" },
+        { key: "vote_average", value: "Avg Score" }
       ]
     };
   },
+
   created() {
+    this.organizeMovies();
     this.fetch();
   },
 
@@ -70,14 +81,55 @@ export default {
     },
 
     sortList(property) {
-      property === this.sort
+      property === this.sortedBy
         ? (this.sortedDescending = !this.sortedDescending)
         : (this.sortedDescending = true),
-        (this.sort = property);
+        (this.sortedBy = property);
 
       this.sortedDescending == true
         ? this.movies.sort((a, b) => (a[property] > b[property] ? -1 : 1))
         : this.movies.sort((a, b) => (a[property] > b[property] ? 1 : -1));
+    },
+
+    organizeMovies() {
+      this.departments.acting = [];
+      this.departments.push(this.movies.cast);
+      this.departments.crew = [];
+      this.departments.sound = [];
+      this.departments.directing = [];
+      this.departments.art = [];
+      this.departments.writing = [];
+      this.departments.producing = [];
+      this.departments.other = [];
+      this.forLoop();
+    },
+
+    async forLoop() {
+      await this.movies.crew.foreach(element => {
+        console.log(element.department);
+        if (element.department == "Directing") {
+          this.departments.directing(element);
+        }
+        if (element.department == "Production") {
+          this.departments.producing(element);
+        }
+        if (element.department == "Crew") {
+          this.departments.crew(element);
+        }
+        if (element.department == "Writing") {
+          this.writing.push(element);
+        }
+        if (element.department == "Art") {
+          this.departments.art.push(element);
+        }
+        if (element.department == "Sound") {
+          this.departments.sound.push(element);
+        } else this.departments.other.push(element);
+      });
+    },
+
+    updateActiveList(option) {
+      this.activeList = option;
     }
   },
   computed: {
@@ -87,6 +139,17 @@ export default {
 
     arrow() {
       return this.sortedDescending == true ? "\u2193" : "\u2191";
+    },
+    listToShow() {
+      if (this.activeList == "acting") {
+        return this.movies.cast; 
+      } 
+      
+      
+      
+      
+      
+      else return "nothing";
     }
   }
 };
@@ -100,17 +163,24 @@ export default {
   cursor: default;
 }
 
-.sort-buttons-row {
-  border-radius: 15px;
+.sort-buttons-row,
+.department-row {
+  width: 100%;
   background: linear-gradient(
     0deg,
     rgba(99, 82, 161, 1) 0%,
     rgba(133, 111, 214, 1) 50%
   );
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.sort-buttons-row {
+  border-radius: 15px 15px 0 0;
+}
+
+.department-row {
 }
 
 .sort-button {

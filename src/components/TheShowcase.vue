@@ -1,73 +1,114 @@
 <template>
   <div
-    class="hero"
-    v-bind:style="{ backgroundImage: 'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 18%, rgba(255, 255, 255, 0) 100%), url(' + 'https://image.tmdb.org/t/p/original' + movie.backdrop_path + ')' }"
+    id="showcase"
+    v-bind:style="{ backgroundImage: 'url(' + 'https://image.tmdb.org/t/p/original' + movie.backdrop_path + ')' }"
   >
-    <div v-if="!isHidden" class="vid-container">
-      <button class="close-btn" @click="isHidden = !isHidden">X</button>
-      <div class="video-responsive">
-        <iframe
-          id="ytplayer"
-          type="text/html"
-          width="640"
-          height="360"
-          :src="'https://www.youtube.com/embed/' + videoId.key + '?autoplay=1'"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
-      </div>
-    </div>
-    <img
-      class="mobile-only mobile-backdrop"
-      v-bind:src="'https://image.tmdb.org/t/p/original' + movie.backdrop_path"
-    />
-    <div class="info-container">
-      <div class="info-wrapper">
-               <router-link
+    <div class="container">
+      <div class="grid">
+        <!-- NEW GRID OBJECT -->
+        <router-link
+          class="poster grid-item"
           :to="{ 
             name: 'movie', 
             params: { 
                 id: movie.id,
             } 
         }"
-        ><p class="info--title">{{ movie.title }}</p></router-link>
+        >
+          <img v-bind:src="'https://image.tmdb.org/t/p/w370_and_h556_bestv2//' + movie.poster_path" />
+        </router-link>
+        <!-- NEW GRID OBJECT -->
+        <div class="title-box grid-item">
+          <router-link
+            :to="{ 
+            name: 'movie', 
+            params: { 
+                id: movie.id,
+            } 
+        }"
+          >
+            <h1>{{ movie.title }}</h1>
+          </router-link>
+          <div class="title-box--row">
+            <p class="certification">{{certification}}</p>
+            <p>{{ spacer }}</p>
+            <p class="info--date">{{ movie.release_date | year }}</p>
+            <p>{{ spacer }}</p>
 
-        <p class="info--date">{{ movie.release_date.substring(0, 4)}}</p>
-        <p
-          class="info--date"
-        >{{movie.vote_average | rating}}{{ '(' + movie.vote_count + ' reviews)'}}</p>
-        <p>{{ movie.tagline }}</p>
-        <p class="info-extra">{{ movie.overview.substring(0, 250)}}...</p>
+            <p>{{ movie.runtime | minutesToHours }}</p>
+          </div>
+        </div>
+
+        <!-- NEW GRID OBJECT -->
+        <p class="tagline grid-item">{{ movie.tagline }}</p>
+        <!-- NEW GRID OBJECT -->
+        <div class="rating-box">
+          <p class="star-rating">{{movie.vote_average | rating}}</p>
+          <button class="show-btn" @click="showingVideoModal = true">
+            <font-awesome-icon icon="play" />Watch the trailer
+          </button>
+        </div>
+        <!-- NEW GRID OBJECT -->
+        <div class="overview-box grid-item">
+          <h2>Overview</h2>
+          <p class="info-extra">{{ movie.overview.substring(0, 250)}}...</p>
+        </div>
+        <!-- NEW GRID OBJECT -->
+        <div class="credits-box grid-item row">
+          <h4>Directed by</h4>
+          <small>{{director}}</small>
+        </div>
       </div>
+      <!-- END GRID -->
     </div>
-    <button  class="show-btn" @click="isHidden = !isHidden">
-      <img width="24" src="../assets/button-play.svg" alt />Watch Trailer
-    </button>
+
+    <VideoModal
+      v-if="showingVideoModal == true"
+      @close="showingVideoModal = false"
+      :movieId="movie.id"
+    />
   </div>
-</template>
+</template>  <font-awesome-icon icon="play" />
 
 <script>
+import VideoModal from "./TheVideoModal";
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
 const MoviesRepository = RepositoryFactory.get("movies");
 export default {
-  name: "Showcase",
+  components: { VideoModal },
   props: {
     movie: {}
   },
   data() {
-    return { 
-    isHidden: true, 
-    videoId: null };
+    return {
+      showingVideoModal: false,
+      director: "",
+      certification: ""
+    };
   },
   created() {
     this.fetch();
   },
   methods: {
     async fetch() {
-      
-        const { data } = await MoviesRepository.getVideoById(this.movie.id);
-        this.videoId = data.results[0];
-      
+      const { data } = await MoviesRepository.getById(this.movie.id);
+
+      const mpaa = data.release_dates.results.find(
+        element => element.iso_3166_1 == "US"
+      );
+
+      this.certification = mpaa.release_dates[0].certification
+        ? mpaa.release_dates[0].certification
+        : "NR";
+
+      this.director = data.credits.crew.find(
+        element => element.job.toLowerCase() == "director"
+      ).name;
+    }
+  },
+  computed: {
+    spacer() {
+      return "\u25C7";
     }
   }
 };
@@ -75,56 +116,110 @@ export default {
 
 
 <style scoped>
-.video-responsive {
-  overflow: hidden;
-  padding-bottom: 56.25%;
-  position: top;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.video-responsive iframe {
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-}
-
-.vid-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: black;
-  z-index: 900000;
-  width: 100vw;
-  height: 100vh;
-}
-
-.close-btn {
-  border: none;
-  color: white;
-  background-color: inherit;
-  font-size: 1.5rem;
-  position: absolute;
-  padding: 1rem;
-  float: left;
-  z-index: 900001;
-}
-
-
-.close-btn:hover{
-  cursor: pointer;}
-
 @media (min-width: 600px) {
-  .hero {
+  #showcase {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding: 1rem;
-    width: 100vw;
-    height: 60vh;
+    width: 100%;
+    height: 50vh;
+  }
+
+  .container {
+    background: linear-gradient(
+      25deg,
+      rgb(50, 38, 94) 0%,
+      rgba(74, 54, 105, 0.881) 54%,
+      rgba(253, 187, 45, 0.8197479675463936) 100%
+    );
+    width: inherit;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .grid {
+    display: grid;
+    max-width: 1200px;
+
+    grid-template-areas:
+      "poster   title"
+      "poster   tagline"
+      "poster    rating"
+      "poster    overview"
+      "poster   overview"
+      "poster   credits";
+    grid-column-gap: 50px;
+  }
+
+  .grid-item {
+    text-shadow: #352b3d 0px 1px 5px;
+  }
+
+  .title-box {
+    grid-area: title;
+  }
+
+  .title-box--row {
+    display: flex;
+    align-items: center;
+  }
+  .title-box--row > * {
+    margin-right: 0.5rem;
+  }
+
+  .tagline {
+    grid-area: tagline;
+    font-style: italic;
+    color: rgb(218, 218, 218);
+  }
+
+  .rating-box {
+    grid-area: rating;
+  }
+
+  .star-rating {
+    font-size: 2.5rem;
+  }
+
+  .poster {
+    grid-area: poster;
+  }
+
+  .poster img {
+    width: 300px;
+  }
+
+  .certification {
+    color: white;
+    font-size: 1rem;
+    width: max-content;
+    padding: 0 0.2rem;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+
+  .overview-box {
+    grid-area: overview;
+    line-height: 1.8rem;
+    color: white;
+  }
+
+  .credits-box {
+    grid-area: credits;
+    color: white;
+  }
+
+  h1,
+  h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
   }
 
   .mobile-only {
@@ -132,15 +227,16 @@ export default {
   }
 
   .show-btn {
-    background-color: rgb(108, 84, 197);
+    padding: 0.7rem;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    border: none;
-    color: white;
-    margin-top: 2rem;
-    padding: 0.7rem 1.2rem;
-    max-width: 250px;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    color: #fdbb2d;
+    text-indent: 1rem;
+    font-weight: bolder;
+    font-size: 1.1rem;
   }
 
   .info-wrapper > * {
@@ -180,33 +276,7 @@ export default {
   }
 }
 
-.hero {
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 18%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-position: 0 10% ;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.show-btn {
-  background-color: #6c54c5;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-  border: none;
-  color: white;
-  margin-top: 2rem;
-  padding: 1.3rem;
-  font-size: 1.2rem;
-
-}
-
-.show-btn:hover{
+.show-btn:hover {
   cursor: pointer;
   background-color: #856fd6;
 }

@@ -1,18 +1,18 @@
 <template>
-  <div class="container">
-    <h3 class="row-title">{{ rowTitle }}</h3>
-    <div class="movie-row">
-      <MovieCard class="movie-box" v-for="movie in movies" :movie="movie" :key="movie.id" />
-       </div>
+  <div id="movie-row">
+    <h2 class="row-title">{{ rowTitle }}</h2>
+    <div class="flex">
+      <MovieCard class="movie-card" v-for="movie in movies" :movie="movie" :key="movie.id" />
+    </div>
   </div>
 </template>
 
 
 <script>
-import MovieCard from './MovieCard'
+import MovieCard from "./MovieCard";
 export default {
   name: "MovieRow",
-  components:{MovieCard},
+  components: { MovieCard },
 
   props: {
     rowTitle: String,
@@ -24,30 +24,26 @@ export default {
 
 <style scoped>
 .row-title {
-  font-size: 1.3rem;
-  margin-left: 1.5rem;
-  margin-bottom: 0.7rem;
-}
-.container {
-  padding-top: 1rem;
-  margin: 2rem 0;
+  padding: 0 5px 18px 5px;
 }
 
-.movie-row {
+.flex {
   display: flex;
-  padding: 1rem;
-  width: 100%;
+  padding: 0 5px 30px 5px;
   overflow-y: hidden; /* Hide horizontal scrollbar */
   overflow-x: scroll; /* Add vertical scrollbar */
 }
 
-.movie-row > * {
-  margin-left: 1.5rem;
+.movie-card {
+  margin: 0 1rem;
 }
 
-.movie-row-wrapper > *:last-child {
-  padding-right: 1.5rem;
+.movie-card:first-child {
+  margin: 0 1rem 0 0;
 }
 
-
+/deep/ .movie-card img {
+  width: 30vw;
+  max-width: 200px;
+}
 </style>

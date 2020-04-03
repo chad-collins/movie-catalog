@@ -10,8 +10,9 @@ export default {
     return Repository.get(`person/${id}/images?${key}`);
   },
   getActingCredits(id) {
-    return Repository.get(`person/${id}/movie_credits?${key}`);
+    return Repository.get(`person/${id}/movie_credits?${key}&sort_by=popularity.desc`);
   },
+  
   getPopular() {
     return Repository.get(
       `person/popular?${key}&language=en-US&page=1`

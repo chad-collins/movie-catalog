@@ -21,10 +21,10 @@ export default new Router({
       component: () => import('./views/Movie.vue')
     },
     {
-      path: '/actor/:id',
-      name: 'actor',
+      path: '/person/:id',
+      name: 'person',
     
-      component: () => import('./views/Actor.vue')
+      component: () => import('./views/Person.vue')
     },
     {
       path: '/search',

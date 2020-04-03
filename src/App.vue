@@ -22,31 +22,29 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;1,400&display=swap");
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-a:active, a:focus {
+a:active,
+a:focus {
   outline: 0;
   -moz-outline-style: none;
   outline-style: none;
 }
 body {
-  font-family: 'Archivo', sans-serif;
+  font-family: "Archivo", sans-serif;
   line-height: 1.4;
-  background-color: rgb(219, 219, 233);
+  background-color: rgb(240, 237, 243);
 }
 
 main {
-  margin-top: 4rem;
+  margin-top: 60px;
 }
 @media (min-width: 600px) {
-  main {
-    margin-left: 4rem;
-    margin-top: 0;
-  }
+
 }
 button {
   user-select: none;
@@ -54,4 +52,6 @@ button {
 button:hover {
   cursor: pointer;
 }
+
+
 </style>

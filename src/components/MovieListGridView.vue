@@ -1,7 +1,7 @@
 <template>
-  <div class="grid">
-    <div  v-for="movie in movies" :key="movie.id">
-      <MovieCard class="item" :movie="movie" />
+  <div id="grid-container">
+    <div class="grid">
+      <MovieCard class="item" v-for="movie in movies" :key="movie.id" :movie="movie" />
     </div>
   </div>
 </template>
@@ -20,18 +20,27 @@ export default {
 
 
 <style scoped>
-.grid {
-  background-color: red;
-  display: grid;
-  grid-template-columns: repeat(3, 200px);
+#grid-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-.grid * > {
-  margin: 1rem;
+.grid {
+  background-color: rgba(157, 168, 184, 0.2);
+ -webkit-box-shadow: inset 0px 20px 29px -19px rgba(59,59,59,0.34);
+-moz-box-shadow: inset 0px 20px 29px -19px rgba(59,59,59,0.34);
+box-shadow: inset 0px 20px 29px -19px rgba(59,59,59,0.34);
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .item {
-  margin: 3rem;
+  margin: 20px;
 }
 
 /deep/ img {

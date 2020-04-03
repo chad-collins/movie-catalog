@@ -18,14 +18,14 @@
     </div>
 
     <MovieRow v-if="movies.length > 0" rowTitle="Movie Results:" v-bind:movies="movies" />
-    <CastRow v-if="actors.length > 0" rowTitle="Actor Results:" v-bind:cast="actors" />
+    <PersonRow v-if="actors.length > 0" rowTitle="Actor Results:" v-bind:people="actors" />
   </div>
 </template>
 
 <script>
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
 import MovieRow from "../components/MovieRow.vue";
-import CastRow from "../components/CastRow";
+import PersonRow from "../components/PersonRow";
 const MoviesRepository = RepositoryFactory.get("movies");
 const ActorsRepository = RepositoryFactory.get("actors");
 
@@ -33,7 +33,7 @@ export default {
   name: "search",
   components: {
     MovieRow,
-    CastRow
+    PersonRow
   },
   data() {
     return {

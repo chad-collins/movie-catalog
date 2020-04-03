@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li class="item" v-for="movie in movies" v-bind:key="movie.id">
+    <li class="item" v-for="movie in movies" :key="movie.id">
       <div class="left-col">
         <router-link
           :to="{ 
@@ -14,8 +14,8 @@
 
         <div>{{movie.vote_average | rating}}</div>
       </div>
-
-      <div>{{movie.release_date | year}}</div>
+    <div>{{movie.release_date | year}}</div>
+     
     </li>
   </ul>
 </template>
@@ -23,9 +23,8 @@
 export default { props: { movies: {} } };
 </script>
 <style scoped>
-
 ul {
-  display: flex;
+    display: flex;
   flex-direction: column;
   width: 100%;
 }
@@ -37,7 +36,7 @@ li {
 }
 
 li:nth-child(even) {
-  background-color: rgb(227, 227, 240);
+  background-color: rgba(227, 227, 240, 0.65);
 }
 
 a {
