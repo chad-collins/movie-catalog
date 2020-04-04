@@ -18,7 +18,7 @@
       <div class="info">
         <img
           class="headshot"
-          v-bind:src="actor.profile_path | formatImageLink"
+          v-bind:src="'https://image.tmdb.org/t/p/w300' + actor.profile_path"
           v-bind:alt="'Photo of ' + actor.name"
         />
 
@@ -30,7 +30,7 @@
               <p class="stat--content">{{ actor.birthday | date }}</p>
             </li>
             <li class="stat" v-if="actor.deathday != null">
-              <h3 class="stat--label">Died</h3>
+              <h3 class="stat-~-label">Died</h3>
               <p class="stat--content">{{ actor.deathday | date}}</p>
             </li>
             <li class="stat" v-if="actor.place_of_birth != null">
@@ -96,7 +96,7 @@ export default {
         const { data } = await ActorsRepository.getActingCredits(
           this.$route.params.id
         );
-        this.movies = data;
+        this.movies = data.cast;
       }
     }
   },

@@ -76,7 +76,7 @@ Vue.filter("date", function(value) {
 
 Vue.filter("year", function(value) {
 
-  return value ? value.slice(0, 4) : "";
+  return value ? value.slice(0, 4) : "unknown";
 });
 
 Vue.filter("minutesToHours", function(value) {

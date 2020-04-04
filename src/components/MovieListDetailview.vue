@@ -20,7 +20,9 @@
   </ul>
 </template>
 <script>
-export default { props: { movies: {} } };
+export default { 
+  props: { movies: Array } 
+  };
 </script>
 <style scoped>
 ul {

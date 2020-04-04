@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="movie-list">
     <div class="sort-buttons-row">
       <div class="row-left">
         <div
@@ -28,14 +28,14 @@
       </div>
     </div>
 
-    <div class="department-row">
+    <!-- <div class="department-row">
       <button>{{department}}</button>
       <div v-for="department in departments" :key="department">
         <div v-on:click="updateActiveList(department)">{{department}}</div>
       </div>
-    </div>
+    </div>-->
 
-    <MovieListDetailview v-if="listView == 'details'" :movies="listToShow" />
+    <MovieListDetailview v-if="listView == 'details'" :movies="movies" />
     <MovieListGridView v-else :movies="movies" />
   </div>
 </template>
@@ -51,26 +51,30 @@ export default {
   props: { movies: Array },
   data() {
     return {
-      activeList: "acting",
-      departments: {},
+      totalResults: this.movies.length,
       listView: "details",
       genreList: [],
-      sortedBy: "popularity",
+      sortedBy: "",
       sortedDescending: true,
+      arrow: "\u2193",
       sortOptions: [
         { key: "title", value: "Title" },
         { key: "release_date", value: "Year" },
-        { key: "popularity", value: "Popularity" },
-        { key: "vote_average", value: "Avg Score" }
+        { key: "vote_average", value: "Avg Score" },
+        { key: "popularity", value: "Popularity" }
       ]
     };
   },
 
   created() {
-    this.organizeMovies();
     this.fetch();
   },
 
+  watch: {
+    sortedDescending: function(val) {
+      val ? (this.arrow = "\u2193") : (this.arrow = "\u2191");
+    }
+  },
   methods: {
     async fetch() {
       const id = this.$route.params.id;
@@ -80,82 +84,28 @@ export default {
       }
     },
 
-    sortList(property) {
-      property === this.sortedBy
-        ? (this.sortedDescending = !this.sortedDescending)
-        : (this.sortedDescending = true),
-        (this.sortedBy = property);
-
-      this.sortedDescending == true
-        ? this.movies.sort((a, b) => (a[property] > b[property] ? -1 : 1))
-        : this.movies.sort((a, b) => (a[property] > b[property] ? 1 : -1));
-    },
-
-    organizeMovies() {
-      this.departments.acting = [];
-      this.departments.push(this.movies.cast);
-      this.departments.crew = [];
-      this.departments.sound = [];
-      this.departments.directing = [];
-      this.departments.art = [];
-      this.departments.writing = [];
-      this.departments.producing = [];
-      this.departments.other = [];
-      this.forLoop();
-    },
-
-    async forLoop() {
-      await this.movies.crew.foreach(element => {
-        console.log(element.department);
-        if (element.department == "Directing") {
-          this.departments.directing(element);
-        }
-        if (element.department == "Production") {
-          this.departments.producing(element);
-        }
-        if (element.department == "Crew") {
-          this.departments.crew(element);
-        }
-        if (element.department == "Writing") {
-          this.writing.push(element);
-        }
-        if (element.department == "Art") {
-          this.departments.art.push(element);
-        }
-        if (element.department == "Sound") {
-          this.departments.sound.push(element);
-        } else this.departments.other.push(element);
-      });
-    },
-
-    updateActiveList(option) {
-      this.activeList = option;
-    }
-  },
-  computed: {
-    totalResults() {
-      return this.movies.length;
-    },
-
-    arrow() {
-      return this.sortedDescending == true ? "\u2193" : "\u2191";
-    },
-    listToShow() {
-      if (this.activeList == "acting") {
-        return this.movies.cast; 
-      } 
-      
-      
-      
-      
-      
-      else return "nothing";
+    sortList(val) {
+      if (val === this.sortedBy) {
+        this.sortedDescending = !this.sortedDescending;
+        this.movies.reverse();
+      } else {
+        this.sortedBy = val;
+        this.sortedDescending = true;
+        val == 'title' ? 
+               this.movies.sort((a, b) =>
+          a[this.sortedBy] > b[this.sortedBy] ? 1 : -1
+        )
+        : this.movies.sort((a, b) =>
+          a[this.sortedBy] > b[this.sortedBy] ? -1 : 1
+        );
+      }
     }
   }
 };
 </script>
 
 <style scoped>
+
 .active {
   color: yellow !important;
 }
@@ -178,6 +128,7 @@ export default {
 
 .sort-buttons-row {
   border-radius: 15px 15px 0 0;
+   user-select: none;
 }
 
 .department-row {

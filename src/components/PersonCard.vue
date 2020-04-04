@@ -14,8 +14,9 @@
         :src="person.profile_path | formatImageLink"
         :alt="'Photo of ' + person.name"
       />
-    </router-link>
+ 
     <p class="person-name">{{ person.name }}</p>
+       </router-link>
     <small v-if="person.character">{{ person.character }}</small>
     <small v-if="person.job">{{ person.job }}</small>
   </div>
@@ -36,5 +37,11 @@ export default {
 
 .person-headshot {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+a{
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
 }
 </style>
