@@ -118,6 +118,7 @@ export default {
 <style scoped>
 @media (min-width: 600px) {
   #showcase {
+    user-select: none;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

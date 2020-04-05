@@ -44,7 +44,7 @@
         </ul>
       </div>
       <PersonRow class="cast grid-area" rowTitle="Cast" v-bind:people="movie.credits.cast" />
-      <PersonRow class="crew grid-area" rowTitle="Crew" v-bind:people="movie.credits.crew" />
+      <!-- <PersonRow class="crew grid-area" rowTitle="Crew" v-bind:people="movie.credits.crew" /> -->
       <MovieRow class="similar grid-area" rowTitle="Similar Movies" v-bind:movies="similar" />
     </div>
   </div>

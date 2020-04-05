@@ -1,36 +1,53 @@
 <template>
-<div>
-  <div class="navbar">
-    <ul>
-      <li>
-        <router-link to="/">
-          <img height="30px" src="../assets/images/logo.png" alt="logo" />
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/movies">Movies</router-link>
-      </li>
-      <li>
-        <router-link to="/">People</router-link>
-      </li>
-      <li>
-        <font-awesome-icon
-          v-on:click="showingSearch = !showingSearch"
-          :class="{'yellow' : showingSearch}"
-          class="search-button"
-          icon="search"
-        />
-      </li>
-      <li>
-        <router-link to="/about">
-          <font-awesome-icon class="yellow" icon="info" />
-        </router-link>
-      </li>
-      <li></li>
-    </ul>
+  <div>
+    <div class="navbar">
+      <nav>
+        <div>
+          <router-link to="/">
+            <img height="30px" src="../assets/images/logo.png" alt="logo" />
+          </router-link>
+        </div>
+        <div>
+          <div v-on:mouseover="showingMovies = true" v-on:mouseleave="showingMovies = false"><button>Movies</button>
+          <ul
+            v-if="showingMovies"
+            class="drop-down-menu"
+          >
+            <li v-for="category in moviesCategories" :key="category" :category="category.keyword">
+              <router-link
+                :to="{ 
+            name: 'movies', 
+            params: { 
+                category: category,
+                id: category.keyword
+            } 
+        }"
+              >{{category.display}}</router-link>
+            </li>
+          </ul>
+        </div>
+        </div>
 
-  </div>
-      <TheNavbarSearch v-if="showingSearch" @close="showingSearch = false" />
+        <div>
+          <router-link to="/"><button>People</button></router-link>
+        </div>
+        <div>
+          <font-awesome-icon
+            v-on:click="showingSearch = !showingSearch"
+            :class="{'yellow' : showingSearch}"
+            class="search-button"
+            icon="search"
+          />
+        </div>
+        <div>
+          <router-link to="/about">
+            <button><font-awesome-icon icon="info" /></button>
+          </router-link>
+        </div>
+        <div></div>
+      </nav>
+    </div>
+    <TheNavbarSearch v-if="showingSearch" @close="showingSearch = false" />
   </div>
 </template>
 
@@ -43,21 +60,30 @@ export default {
   data() {
     return {
       showingSearch: false,
+      showingMovies: false,
+      moviesCategories: [
+        { keyword: "now_playing", display: "Now Playing" },
+        { keyword: "top_rated", display: "Top Rating" },
+        { keyword: "popular", display: "Popular" },
+        { keyword: "upcoming", display: "Upcoming" }
+      ]
     };
   },
- watch:{
-    $route: function(to, from){
-      if(to, from){this.showingSearch = false;}
-        
+  watch: {
+    $route: function(to, from) {
+      if ((to, from)) {
+        this.showingSearch = false;
+        this.showingMovies = false;
+      }
     }
-} 
+  }
 };
 </script>
 
 <style scoped>
 .branding {
   border: 1px solid white;
-  padding: 0.5rem;
+
   border-radius: 20px;
 }
 .navbar {
@@ -77,7 +103,7 @@ export default {
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.3);
 }
 
-ul {
+nav {
   display: flex;
   width: 100%;
   flex-direction: inherit;
@@ -88,7 +114,7 @@ ul {
 
 a {
   text-decoration: none;
-  color: white;
+  color: black;
   font-weight: bolder;
 }
 
@@ -98,18 +124,31 @@ a {
   font-size: 1.3rem;
 }
 
-a:hover {
-  -webkit-stroke-width: 5.3px;
-  -webkit-stroke-color: #fff;
-  -webkit-fill-color: #fff;
-  text-shadow: 1px 0px 20px rgb(255, 255, 238);
-}
 
 .yellow {
   color: #ffd500;
 }
 
 li {
-  margin: 1.5rem;
+  list-style: none;
+
 }
+.drop-down-menu {
+  position: fixed;
+  top: 40px;
+  background-color: white;
+  padding: 1rem 2rem 1rem 0.6rem;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+button{
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  height: 65px;
+  padding: 1rem;
+}
+
 </style>

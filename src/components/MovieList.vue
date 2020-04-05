@@ -1,5 +1,6 @@
 <template>
   <div id="movie-list">
+    <button v-on:click="$emit('addPage'), forceRerender()">PRESS</button>
     <div class="sort-buttons-row">
       <div class="row-left">
         <div
@@ -48,11 +49,11 @@ const MoviesRepository = RepositoryFactory.get("movies");
 export default {
   name: "list",
   components: { MovieListDetailview, MovieListGridView },
-  props: { movies: Array },
+  props: { movies: Array, defaultView: String },
   data() {
     return {
       totalResults: this.movies.length,
-      listView: "details",
+      listView: this.defaultView,
       genreList: [],
       sortedBy: "",
       sortedDescending: true,
@@ -83,7 +84,6 @@ export default {
         this.genreList = data.genres;
       }
     },
-
     sortList(val) {
       if (val === this.sortedBy) {
         this.sortedDescending = !this.sortedDescending;
@@ -91,13 +91,13 @@ export default {
       } else {
         this.sortedBy = val;
         this.sortedDescending = true;
-        val == 'title' ? 
-               this.movies.sort((a, b) =>
-          a[this.sortedBy] > b[this.sortedBy] ? 1 : -1
-        )
-        : this.movies.sort((a, b) =>
-          a[this.sortedBy] > b[this.sortedBy] ? -1 : 1
-        );
+        val == "title"
+          ? this.movies.sort((a, b) =>
+              a[this.sortedBy] > b[this.sortedBy] ? 1 : -1
+            )
+          : this.movies.sort((a, b) =>
+              a[this.sortedBy] > b[this.sortedBy] ? -1 : 1
+            );
       }
     }
   }
@@ -105,7 +105,6 @@ export default {
 </script>
 
 <style scoped>
-
 .active {
   color: yellow !important;
 }
@@ -128,7 +127,7 @@ export default {
 
 .sort-buttons-row {
   border-radius: 15px 15px 0 0;
-   user-select: none;
+  user-select: none;
 }
 
 .department-row {

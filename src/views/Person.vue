@@ -58,7 +58,7 @@
         <button class="button" @click="galleryShowing = true">Gallery</button>
 
         <Gallery @close="galleryShowing=false" v-if="galleryShowing==true" />
-        <MovieList v-bind:movies="movies" />
+        <MovieList v-bind:movies="movies" defaultView="details" />
       </div>
     </div>
   </div>

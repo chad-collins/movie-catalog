@@ -7,6 +7,8 @@ import Home from './views/Home.vue'
 Vue.use(Router)
 
 export default new Router({
+  mode: "history",
+  base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
@@ -37,7 +39,7 @@ export default new Router({
       component: () => import('./views/About.vue')
     },
     {
-      path: '/movies',
+      path: '/movies/:id',
       name: 'movies',
       component: () => import('./views/Movies.vue')
     }
