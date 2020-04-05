@@ -44,7 +44,7 @@
         <!-- NEW GRID OBJECT -->
         <div class="rating-box">
           <p class="star-rating">{{movie.vote_average | rating}}</p>
-          <button class="show-btn" @click="showingVideoModal = true">
+          <button  class="show-btn" @click="showingVideoModal = true">
             <font-awesome-icon icon="play" />Watch the trailer
           </button>
         </div>

@@ -100,6 +100,7 @@ export default {
       }
     }
   },
+  
   computed: {
     bio() {
       return this.actor.biography.split("\n\n");
@@ -114,7 +115,7 @@ export default {
 
 <style scoped>
 #page {
-  margin-top: 6rem;
+  padding-top: 6rem;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -6,9 +6,6 @@ export default {
   getById(id) {
     return Repository.get(`movie/${id}?${key}&language=en-US${append}credits,release_dates,status,video`);
   },
-  getByName(name) {
-    return Repository.get(`/search/movie?${key}&query=${name}&language=en-US`)},
-
   getImagesById(id) {
     return Repository.get(`movie/${id}/images?${key}`);
   },

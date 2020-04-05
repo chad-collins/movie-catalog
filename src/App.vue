@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <NavBar />
+    <Navbar  />
     <main>
       <router-view :key="$route.fullPath" />
     </main>
@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import NavBar from "./components/TheNavBar";
+import Navbar from "./components/TheNavbar";
 import Footer from "./components/TheFooter";
 
 export default {
   name: "App",
   components: {
-    NavBar,
+    Navbar,
     Footer
   }
 };
