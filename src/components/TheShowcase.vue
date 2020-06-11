@@ -5,6 +5,7 @@
   >
     <div class="container">
       <div class="grid">
+
         <!-- NEW GRID OBJECT -->
         <router-link
           class="poster grid-item"
@@ -27,27 +28,28 @@
             } 
         }"
           >
-            <h1>{{ movie.title }}</h1>
+            <div class="movie-title">{{ movie.title }}</div>
           </router-link>
-          <div class="title-box--row">
-            <p class="certification">{{certification}}</p>
-            <p>{{ spacer }}</p>
-            <p class="info--date">{{ movie.release_date | year }}</p>
-            <p>{{ spacer }}</p>
-
-            <p>{{ movie.runtime | minutesToHours }}</p>
-          </div>
         </div>
+        <!-- NEW GRID OBJECT -->
+        <div class="movie-stats">
+          <p class="certification">{{certification}}</p>
+          <p class="spacer">{{ spacer }}</p>
+          <p class="info--date">{{ movie.release_date | year }}</p>
+          <p class="spacer">{{ spacer }}</p>
 
+          <p>{{ movie.runtime | minutesToHours }}</p>
+        </div>
         <!-- NEW GRID OBJECT -->
         <p class="tagline grid-item">{{ movie.tagline }}</p>
         <!-- NEW GRID OBJECT -->
         <div class="rating-box">
           <p class="star-rating">{{movie.vote_average | rating}}</p>
-          <button  class="show-btn" @click="showingVideoModal = true">
-            <font-awesome-icon icon="play" />Watch the trailer
-          </button>
         </div>
+        <!-- NEW GRID OBJECT -->
+        <button class="show-btn" @click="showingVideoModal = true">
+          <font-awesome-icon icon="play" />Watch the trailer
+        </button>
         <!-- NEW GRID OBJECT -->
         <div class="overview-box grid-item">
           <h2>Overview</h2>
@@ -55,7 +57,7 @@
         </div>
         <!-- NEW GRID OBJECT -->
         <div class="credits-box grid-item row">
-          <h4>Directed by</h4>
+          <h4 v-if="director">Directed by</h4>
           <small>{{director}}</small>
         </div>
       </div>
@@ -116,15 +118,154 @@ export default {
 
 
 <style scoped>
-@media (min-width: 600px) {
+#showcase {
+  user-select: none;
+}
+
+.showcase-title {
+  font-size: 2rem;
+  padding: 1rem;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-item {
+  text-shadow: #352b3d 0px 1px 5px;
+}
+
+.title-box {
+  grid-area: title;
+}
+
+.credits-box {
+  grid-area: credits;
+  color: white;
+}
+
+.poster {
+  grid-area: poster;
+}
+
+.rating-box {
+  grid-area: rating;
+}
+
+.tagline {
+  grid-area: tagline;
+  font-style: italic;
+  color: rgb(218, 218, 218);
+}
+
+.overview-box {
+  grid-area: overview;
+  line-height: 1.8rem;
+  color: white;
+}
+
+a {
+  text-decoration: underline;
+  color: white;
+}
+
+.star-rating {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.show-btn {
+  grid-area: button;
+  align-items: center;
+  justify-content: center;
+}
+
+.movie-stats {
+  grid-area: stats;
+  color: white;
+}
+
+.showcase-title {
+  grid-area: header;
+}
+
+@media (max-width: 599px) {
+  .movie-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  .show-btn {
+    width: 100%;
+    height: 3rem;
+    margin-top: 1rem;
+    display: flex;
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fdbb2d;
+    text-indent: 1rem;
+    font-weight: bolder;
+    font-size: 1.1rem;
+  }
+
   #showcase {
-    user-select: none;
+    color: white;
+    background-image: none !important;
+    max-width: 100vw;
+    overflow: hidden;
+    background-color: #362c3f;
+  }
+
+  .movie-stats {
+    display: flex;
+    margin: 1rem 0;
+    justify-content: space-evenly;
+  }
+
+  .grid {
+    padding: 1rem;
+    grid-template-areas:
+      "poster   title"
+      "poster   rating"
+      "poster   credits"
+      "poster   tagline"
+      "poster   tagline"
+      "poster   tagline"
+      "stats    stats"
+      "overview overview"
+      "button   button";
+  }
+
+  .poster img {
+    max-width: 40vw;
+    margin-top: 1rem;
+  }
+}
+
+@media (min-width: 600px) {
+  .show-btn {
+    min-width: 240px;
+    max-width: 300px;
+    height: 50px;
+    display: flex;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    color: #fdbb2d;
+    text-indent: 1rem;
+    font-weight: bolder;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  #showcase {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
     width: 100%;
-    height: 50vh;
+    min-height: 50vh;
   }
 
   .container {
@@ -144,53 +285,32 @@ export default {
   .grid {
     display: grid;
     max-width: 1200px;
+    padding: 2rem;
 
     grid-template-areas:
       "poster   title"
+      "poster   stats"
       "poster   tagline"
       "poster    rating"
-      "poster    overview"
+      "poster    button"
+      "poster   overview"
+      "poster   overview"
       "poster   overview"
       "poster   credits";
     grid-column-gap: 50px;
   }
 
-  .grid-item {
-    text-shadow: #352b3d 0px 1px 5px;
-  }
-
-  .title-box {
-    grid-area: title;
-  }
-
-  .title-box--row {
+  .movie-stats {
     display: flex;
     align-items: center;
   }
-  .title-box--row > * {
+
+  .movie-stats > * {
     margin-right: 0.5rem;
   }
 
-  .tagline {
-    grid-area: tagline;
-    font-style: italic;
-    color: rgb(218, 218, 218);
-  }
-
-  .rating-box {
-    grid-area: rating;
-  }
-
-  .star-rating {
-    font-size: 2.5rem;
-  }
-
-  .poster {
-    grid-area: poster;
-  }
-
   .poster img {
-    width: 300px;
+    max-width: 100%;
   }
 
   .certification {
@@ -202,44 +322,6 @@ export default {
     border: 1px solid;
   }
 
-  .overview-box {
-    grid-area: overview;
-    line-height: 1.8rem;
-    color: white;
-  }
-
-  .credits-box {
-    grid-area: credits;
-    color: white;
-  }
-
-  h1,
-  h2 {
-    margin-bottom: 0.5rem;
-  }
-
-  a {
-    text-decoration: none;
-    color: white;
-  }
-
-  .mobile-only {
-    display: none;
-  }
-
-  .show-btn {
-    padding: 0.7rem;
-    display: flex;
-    align-items: center;
-    border: 1px solid white;
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0);
-    color: #fdbb2d;
-    text-indent: 1rem;
-    font-weight: bolder;
-    font-size: 1.1rem;
-  }
-
   .info-wrapper > * {
     margin-top: 0.4rem;
   }
@@ -247,57 +329,18 @@ export default {
   .info-extra {
     display: block;
   }
-}
-@media (max-width: 599px) {
-  .hero {
-    background-image: none !important;
+
+  .movie-title {
+    font-size: 2rem;
   }
 
-  .info-container {
-    padding: 1rem;
-    display: flex;
-    flex-wrap: wrap-reverse;
+  h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem.5;
   }
-  .info-wrapper {
-    margin: 1rem;
-  }
-  .info-extra {
-    display: none;
-  }
-  .mobile-backdrop {
-    width: 100%;
-  }
-  .mobile-poster {
-    width: 150px;
-  }
-}
-@media (max-width: 400px) {
-  .mobile-poster {
-    width: 100px;
-  }
-}
 
-.show-btn:hover {
-  cursor: pointer;
-  background-color: #856fd6;
-}
-
-.material-icons {
-  margin-right: 0.6rem;
-}
-
-.info-wrapper {
-  max-width: 650px;
-}
-
-.info--title {
-  color: white;
-  font-size: 2.5rem;
-}
-
-p {
-  color: rgb(230, 230, 230);
-  font-size: 1.1rem;
-  margin-bottom: 0.2rem;
+  .star-rating {
+    font-size: 2.5rem;
+  }
 }
 </style>
