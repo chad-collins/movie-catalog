@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <div id="home">
     <Showcase v-bind:movie="showcaseMovie" :key="showcaseMovie.id" />
-    <MovieRow rowTitle="Popular Now" :movies="row1" />
-    <MovieRow rowTitle="Now Playing" :movies="row2" />
+    <MovieRow class="row" rowTitle="Popular Now" :movies="row1" />
+    <MovieRow class="row" rowTitle="Now Playing" :movies="row2" />
   </div>
 </template>
 
@@ -53,3 +53,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#home {
+  max-width: 100vw;
+  overflow: hidden;
+}
+.row{
+  margin-top: 1.2rem;
+}
+
+</style>

@@ -43,7 +43,7 @@ export default {
 }
 
 /deep/ .movie-card img {
-  width: 30vw;
+  width: 36vw;
   max-width: 200px;
 }
 </style>

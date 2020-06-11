@@ -12,7 +12,7 @@
     </router-link>
     <div class="movie-info">
       <div class="movie-title">
-        {{ movie.title.substring(0, 40)}}
+        {{ movie.title.substring(0, 22)}}
         <span v-if="movie.title.length > 41">...</span>
       </div>
       <div v-if="movie.character != null">{{ movie.character }}</div>
