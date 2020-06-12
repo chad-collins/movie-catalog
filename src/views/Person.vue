@@ -1,10 +1,11 @@
 <template>
   <div id="page">
     <div class="grid">
-      <article class="bio" v-if="actor.biography">
-        <h1>{{ actor.name }}</h1>
-
-        <p>{{ bio[0] }}</p>
+      <h1 class="actor-name">{{ actor.name }}</h1>
+      <div class="bio">
+        <h2>Biography</h2>
+        <div v-if="actor.biography">
+        <p >{{ bio[0] }}</p>
         <div v-if="expandedBio == true">
           <p v-for="par in bio.slice(1)" :key="par">{{ par }}</p>
         </div>
@@ -13,17 +14,20 @@
           class="expand-bio-button"
           v-on:click="expandedBio = !expandedBio"
         >{{ expandMsg }}</button>
-      </article>
+        </div>
+        <div>
+          <h2>Credits</h2>
+          <MovieList v-bind:movies="movies" defaultView="details" />
+        </div>
+      </div>
 
+      <img
+        class="headshot"
+        v-bind:src="'https://image.tmdb.org/t/p/w300' + actor.profile_path"
+        v-bind:alt="'Photo of ' + actor.name"
+      />
       <div class="info">
-        <img
-          class="headshot"
-          v-bind:src="'https://image.tmdb.org/t/p/w300' + actor.profile_path"
-          v-bind:alt="'Photo of ' + actor.name"
-        />
-
         <div class="stats-wrapper">
-          <h2 class="stats-title">Info</h2>
           <ul class="stat-list">
             <li class="stat">
               <h3 class="stat--label">Birthday</h3>
@@ -46,6 +50,7 @@
               <p class="stat--content">{{ movies.length }}</p>
             </li>
             <li class="stat">
+              <h3 class="stat--label">Home Page</h3>
               <a :href="actor.homepage">
                 <font-awesome-icon class="stat--link" icon="link" />
               </a>
@@ -53,34 +58,25 @@
           </ul>
         </div>
       </div>
-
-      <div class="credits">
-        <button class="button" @click="galleryShowing = true">Gallery</button>
-
-        <Gallery @close="galleryShowing=false" v-if="galleryShowing==true" />
-        <MovieList v-bind:movies="movies" defaultView="details" />
-      </div>
     </div>
   </div>
 </template>
 
 
 <script>
-import Gallery from "../components/Gallery";
 import MovieList from "../components/MovieList";
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
 const ActorsRepository = RepositoryFactory.get("actors");
 
 export default {
   name: "Actor",
-  components: { Gallery, MovieList },
+  components: { MovieList },
   data() {
     return {
       knownFor: [],
       movies: [],
       actor: {},
-      expandedBio: false,
-      galleryShowing: false
+      expandedBio: false
     };
   },
   created() {
@@ -100,7 +96,7 @@ export default {
       }
     }
   },
-  
+
   computed: {
     bio() {
       return this.actor.biography.split("\n\n");
@@ -115,21 +111,10 @@ export default {
 
 <style scoped>
 #page {
-  padding-top: 6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.grid {
-  padding: 1rem;
-  max-width: 1200px;
-  display: grid;
-  grid-template-areas:
-    "info    bio"
-    "info    credits"
-    "info     credits";
-  grid-column-gap: 50px;
-  grid-row-gap: 50px;
+  justify-content: center;
 }
 
 li {
@@ -138,6 +123,13 @@ li {
 
 .info {
   grid-area: info;
+}
+
+.actor-name {
+  grid-area: name;
+}
+.headshot {
+  grid-area: headshot;
 }
 
 .bio {
@@ -149,19 +141,21 @@ li {
   grid-area: credits;
 }
 
-.stats-title,
-.stat {
-  margin: 1rem 0;
-}
-
 .stat--link {
   color: black;
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
 h1 {
-  font-size: 2rem;
+  padding-bottom: 1rem;
+  font-size: 2.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 article p {
@@ -177,5 +171,60 @@ article p {
 }
 .expand-bio-button:hover {
   color: #1fb15b;
+}
+
+@media (max-width: 699px) {
+  .headshot {
+    width: 40vw;
+  }
+
+  .grid {
+    width: 100vw;
+    padding: 1rem;
+    max-width: 1200px;
+    display: grid;
+    grid-template-areas:
+      "headshot name"
+      "headshot info"
+      "bio      bio"
+      "credits credits";
+    grid-column-gap: 15px;
+  }
+
+  .stats-title,
+  .stat {
+    margin: 0.5rem 0;
+  }
+  .stat > * {
+    font-size: 0.8rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 700px) {
+  #page {
+    padding-top: 1rem;
+  }
+
+  .grid {
+    padding: 1rem;
+    max-width: 1200px;
+    display: grid;
+    grid-template-areas:
+      "headshot name"
+      "headshot bio"
+      "info     bio"
+      ".        bio";
+
+    grid-column-gap: 50px;
+    grid-row-gap: 10px;
+  }
+
+  .stats-title,
+  .stat {
+    margin: 1rem 0;
+  }
 }
 </style>

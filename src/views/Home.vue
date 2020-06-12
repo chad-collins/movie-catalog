@@ -43,7 +43,7 @@ export default {
       }
 
       {
-        const showcase = await this.row2[
+        const showcase = await this.row1[
           Math.floor(Math.random() * this.row2.length)
         ];
         const { data } = await moviesRepository.getById(showcase.id);

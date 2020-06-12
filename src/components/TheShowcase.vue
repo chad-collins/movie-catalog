@@ -5,7 +5,6 @@
   >
     <div class="container">
       <div class="grid">
-
         <!-- NEW GRID OBJECT -->
         <router-link
           class="poster grid-item"
@@ -120,6 +119,7 @@ export default {
 <style scoped>
 #showcase {
   user-select: none;
+  min-height: 60vh;
 }
 
 .showcase-title {
@@ -225,21 +225,21 @@ a {
 
   .grid {
     padding: 1rem;
+    grid-column-gap: 0px;
     grid-template-areas:
-      "poster   title"
-      "poster   rating"
-      "poster   credits"
-      "poster   tagline"
-      "poster   tagline"
-      "poster   tagline"
-      "stats    stats"
+      "poster title"
+      "poster rating"
+      "poster credits"
+      "poster tagline"
+      "poster tagline"
+      "poster tagline"
+      "stats  stats"
       "overview overview"
-      "button   button";
+      "button button";
   }
 
   .poster img {
     max-width: 40vw;
-    margin-top: 1rem;
   }
 }
 

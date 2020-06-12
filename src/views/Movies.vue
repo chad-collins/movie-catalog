@@ -3,6 +3,7 @@
     <div class="hero">{{ bannerTitle }}</div>
 
     <MovieList
+    class="movie-list"
       v-bind:movies="movies"
       defaultView="grid"
       @addPage="additionalPage()"
@@ -65,9 +66,14 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 5rem;
   align-items: center;
   height: 300px;
   max-height: 20vh;
 }
+
+.movie-list{
+  margin: 0 1rem 0 1rem;
+}
+
 </style>

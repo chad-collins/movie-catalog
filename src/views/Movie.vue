@@ -1,10 +1,10 @@
 <template>
   <div id="page">
-    <Gallery @close="galleryShowing=false" v-if="galleryShowing==true" />
+    <!--<Gallery @close="galleryShowing=false" v-if="galleryShowing==true" />-->
     <Showcase v-bind:movie="movie" :key="movie.id" />
 
     <div class="movie-nav">
-      <button class="button" @click="galleryShowing = true">Gallery</button>
+      <!--<button class="button" @click="galleryShowing = true">Gallery</button>-->
     </div>
     <div class="grid">
       <!--OVERVIEW SECTION-->
@@ -29,17 +29,19 @@
             <p class="stat--content">{{ movie.revenue | dollars }}</p>
           </li>
           <li class="stat">
+            <h3 class="stat--label">Genres:</h3>
+            <div class=" genre-wrapper">
+            <small
+              class="genre"
+              v-bind:key="genre.name"
+              v-for="genre in movie.genres"
+            >{{ genre.name }}</small></div>
+          </li>
+           <li class="stat">
+            <h3 class="stat--label">Homepage:</h3>
             <a class="stat--content" :href="movie.homepage" target="_blank">
               <font-awesome-icon class="stat--link" icon="link" />
             </a>
-          </li>
-          <li class="stat">
-            <p class="stat--label">Genres:</p>
-            <small
-              class="genres"
-              v-bind:key="genre.name"
-              v-for="genre in movie.genres"
-            >{{ genre.name }}</small>
           </li>
         </ul>
       </div>
@@ -52,7 +54,6 @@
 
 <script>
 import Showcase from "../components/TheShowcase";
-import Gallery from "../components/Gallery";
 import MovieRow from "../components/MovieRow.vue";
 import PersonRow from "../components/PersonRow";
 import { RepositoryFactory } from "../services/RepositoryFactory.js";
@@ -64,13 +65,12 @@ export default {
     Showcase,
     PersonRow,
     MovieRow,
-    Gallery
   },
   data() {
     return {
       movie: {},
       similar: {},
-      galleryShowing: false
+
     };
   },
   created() {
@@ -93,26 +93,17 @@ export default {
 </script>
 
 <style scoped>
-#page {
-  margin-top: 60px;
+
+
+
+.genre-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  max-width: 350px;
 }
 
-.grid {
-  padding: 1rem;
-  display: grid;
-  grid-template-areas:
-    "cast     stats"
-    "crew  stats"
-    "similar  stats";
-
-  grid-column-gap: 100px;
-  grid-row-gap: 50px;
-}
-
-.genres {
+.genre {
+  color: white; 
   background-color: #6c54c5;
   padding: 0.3rem 0.8rem;
   margin: 0.3rem;
@@ -134,6 +125,9 @@ export default {
 /deep/.cast img, /deep/.crew img {
   width: 150px;
 }
+
+
+
 
 .stats-title,
 .stat {
@@ -161,5 +155,51 @@ li {
   color: black;
   text-decoration: none;
   font-size: 1.3rem;
+}
+
+@media (max-width: 699px) {
+.stats {
+  width: 100%;
+  border-bottom: 1px solid gray;
+}
+li:nth-child(odd){
+ background-color: rgba(227, 227, 240, 0.65);
+}
+.stat {
+  width: 100%;
+    padding: 0.5rem;
+}
+}
+
+.cast, .similar {
+  margin-top: 1rem;
+}
+
+
+
+@media (min-width: 700px) {
+
+  #page {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+
+.cast, .similar {
+  max-width: 55vw;
+}
+
+.grid {
+  padding: 1rem;
+  display: grid;
+  grid-template-areas:
+    "cast     stats"
+    "similar  stats";
+
+  grid-column-gap: 100px;
+  grid-row-gap: 50px;
+}
+
 }
 </style>

@@ -125,6 +125,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   background: white;
+  animation-name: slidein;
+  animation-duration: 0.5s;
 }
 
 .row {
@@ -197,4 +199,10 @@ li {
   
   margin-left: 1rem;
 }
+
+@keyframes slidein {
+  from {width: 0}
+  to {width: 100}
+}
+
 </style>

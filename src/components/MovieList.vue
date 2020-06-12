@@ -1,6 +1,5 @@
 <template>
   <div id="movie-list">
-    <button v-on:click="$emit('addPage'), forceRerender()">PRESS</button>
     <div class="sort-buttons-row">
       <div class="row-left">
         <div
@@ -105,6 +104,10 @@ export default {
 </script>
 
 <style scoped>
+
+.movie-list{
+  max-width: 100%;
+}
 .active {
   color: yellow !important;
 }
@@ -130,15 +133,14 @@ export default {
   user-select: none;
 }
 
-.department-row {
-}
+
 
 .sort-button {
   color: white;
   display: flex;
   justify-content: space-between;
-  width: 140px;
-  max-width: 100%;
+  max-width: 140px;
+  width: 100%;
   font-weight: bolder;
   border-right: 1px solid rgba(227, 227, 240, 0.3);
   padding: 1rem;
@@ -154,12 +156,15 @@ export default {
   display: flex;
 }
 .display-button {
+
   margin: 1rem;
   color: rgb(216, 216, 216);
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 699px) {
+.sort-button {
+    font-size: 0.8rem;
+  }
 }
 </style>
-
-
-, , , , , , , , , , , , , 
-default: 

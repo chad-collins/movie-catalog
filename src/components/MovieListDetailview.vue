@@ -46,4 +46,10 @@ a {
   font-weight: bolder;
   text-decoration: none;
 }
+
+@media (max-width: 699px) {
+  li{
+    font-size: 0.8rem;
+  }
+}
 </style>

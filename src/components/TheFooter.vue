@@ -1,17 +1,5 @@
 <template>
   <footer>
-    <p>Built and Designed by Chad Collins</p>
-    <div class="wrapper">
-      <a href="https://github.com/rewkie/" target="_blank">
-        <img class="link_img" src="@/assets/images/GitHub-Mark-Light-32px.png" alt="Github logo">
-      </a>
-      <a href="https://www.linkedin.com/in/chadacollins/" target="_blank">
-        <img class="link_img" src="@/assets/images/In-White-34.png" alt="Github logo">
-      </a>
-      <a href="mailto: contact@chadcollins.net" target="_blank">
-        <i class="material-icons link_img">email</i>
-      </a>
-    </div>
 
     <div class="wrapper">
       <div>
@@ -24,6 +12,17 @@
     <div class="copy">
       <p>&copy; 2020 Chad Collins</p>
     </div>
+        <div class="wrapper">
+      <a href="https://github.com/chad-collins/" target="_blank">
+        github
+      </a>
+      <a href="https://www.linkedin.com/in/chadacollins/" target="_blank">
+        linkedin
+      </a>
+      <a href="mailto: contact@chadcollins.net" target="_blank">
+        email
+      </a>
+    </div>
   </footer>
 </template>
 
@@ -31,6 +30,7 @@
 
 <style scoped>
 footer {
+  border-top: 1px solid gray;
   margin: 1rem;
   margin-top: 4rem;
   text-align: center;
@@ -40,14 +40,18 @@ footer {
   display: flex;
   justify-content: center;
   padding: 2rem;
-  border-bottom: 1px solid rgb(49, 49, 49);
 }
 
 img {
   margin-bottom: 1rem;
 }
-.material-icons {
-  color: white;
+a {
+  color: rgb(32, 32, 32);
+  margin: 0 1rem 0 1rem;
+}
+
+a:hover{
+  text-decoration: underline;
 }
 
 .link_img {

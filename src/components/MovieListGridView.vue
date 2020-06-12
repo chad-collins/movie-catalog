@@ -46,4 +46,11 @@ box-shadow: inset 0px 20px 29px -19px rgba(59,59,59,0.34);
 /deep/ img {
   width: 200px;
 }
+
+@media (max-width: 699px) {
+/deep/ img {
+  width: 33vw;
+}
+
+}
 </style>

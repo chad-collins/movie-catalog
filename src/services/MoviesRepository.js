@@ -6,7 +6,7 @@ const region = "&region=US&language=en-US"
 const adult = "&include_adult=false"
 export default {
   getById(id) {
-    return Repository.get(`movie/${id}?${key}${region}${append}credits,release_dates,status,video`);
+    return Repository.get(`movie/${id}?${key}${region}${adult}${append}credits,release_dates,status,video`);
   },
   getImagesById(id) {
     return Repository.get(`movie/${id}/images?${key}`);
@@ -15,7 +15,7 @@ export default {
     return Repository.get(`movie/${id}/videos?${key}`);
   },
   getSimilarById(id) {
-    return Repository.get(`movie/${id}/similar?${key}`);
+    return Repository.get(`movie/${id}/similar?${key}${adult}`);
   },
 
   getByCategory(category, pageNum) {

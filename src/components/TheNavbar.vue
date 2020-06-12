@@ -2,48 +2,40 @@
   <div>
     <div class="navbar">
       <nav>
+        <router-link to="/">
+          <img class="branding" height="20px" src="../assets/images/logo.png" alt="logo" />
+        </router-link>
+
         <div>
-          <router-link to="/">
-            <img height="30px" src="../assets/images/logo.png" alt="logo" />
-          </router-link>
-        </div>
-        <div>
-          <div v-on:mouseover="showingMovies = true" v-on:mouseleave="showingMovies = false"><button>Movies</button>
-          <ul
-            v-if="showingMovies"
-            class="drop-down-menu"
-          >
-            <li v-for="category in moviesCategories" :key="category" :category="category.keyword">
-              <router-link
-                :to="{ 
+          <div v-on:mouseover="showingMovies = true" v-on:mouseleave="showingMovies = false">
+            <button>Movies</button>
+            <ul v-if="showingMovies" class="drop-down-menu">
+              <li v-for="category in moviesCategories" :key="category" :category="category.keyword">
+                <router-link
+                  :to="{ 
             name: 'movies', 
             params: { 
                 category: category,
                 id: category.keyword
             } 
         }"
-              >{{category.display}}</router-link>
-            </li>
-          </ul>
-        </div>
+                >{{category.display}}</router-link>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div>
-          <router-link to="/"><button>People</button></router-link>
-        </div>
-        <div>
-          <font-awesome-icon
-            v-on:click="showingSearch = !showingSearch"
-            :class="{'yellow' : showingSearch}"
-            class="search-button"
-            icon="search"
-          />
-        </div>
-        <div>
+        <!-- <router-link to="/"><button>People</button></router-link> -->
+
+        <button v-on:click="showingSearch = !showingSearch" :class="{'yellow' : showingSearch}">
+          <font-awesome-icon class="search-button" icon="search" /> Search
+        </button>
+
+
           <router-link to="/about">
-            <button><font-awesome-icon icon="info" /></button>
+            <button>About</button>
           </router-link>
-        </div>
+
         <div></div>
       </nav>
     </div>
@@ -81,21 +73,15 @@ export default {
 </script>
 
 <style scoped>
-.branding {
-  border: 1px solid white;
-
-  border-radius: 20px;
-}
 .navbar {
   background: linear-gradient(
     0deg,
     rgba(99, 82, 161, 1) 0%,
     rgb(104, 87, 167) 90%
   );
-  align-items: center;
+  justify-content: center;
   display: flex;
   height: 60px;
-  justify-content: space-between;
   top: 0;
   position: fixed;
   width: 100vw;
@@ -105,6 +91,8 @@ export default {
 
 nav {
   display: flex;
+  max-width: 700px;
+  align-items: center;
   width: 100%;
   flex-direction: inherit;
   list-style: none;
@@ -115,15 +103,12 @@ nav {
 a {
   text-decoration: none;
   color: black;
-  font-weight: bolder;
 }
 
 .search-button {
   color: white;
   cursor: pointer;
-  font-size: 1.3rem;
 }
-
 
 .yellow {
   color: #ffd500;
@@ -131,7 +116,6 @@ a {
 
 li {
   list-style: none;
-
 }
 .drop-down-menu {
   position: fixed;
@@ -142,13 +126,12 @@ li {
   margin-top: 10px;
 }
 
-button{
+button {
   background: none;
   border: none;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1rem;
   height: 65px;
   padding: 1rem;
 }
-
 </style>
