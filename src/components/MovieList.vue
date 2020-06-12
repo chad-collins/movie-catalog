@@ -139,9 +139,7 @@ export default {
   color: white;
   display: flex;
   justify-content: space-between;
-  max-width: 140px;
   width: 100%;
-  font-weight: bolder;
   border-right: 1px solid rgba(227, 227, 240, 0.3);
   padding: 1rem;
 }
@@ -149,6 +147,7 @@ export default {
 .sort-button:hover,
 .display-button:hover {
   cursor: pointer;
+  background-color:rgb(139, 120, 207) 
 }
 
 .row-left,
@@ -156,7 +155,6 @@ export default {
   display: flex;
 }
 .display-button {
-
   margin: 1rem;
   color: rgb(216, 216, 216);
   font-size: 1.2rem;
